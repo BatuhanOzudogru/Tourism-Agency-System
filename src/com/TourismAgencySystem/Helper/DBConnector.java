@@ -1,4 +1,4 @@
-package Helper;
+package com.TourismAgencySystem.Helper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
