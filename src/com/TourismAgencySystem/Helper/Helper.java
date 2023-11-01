@@ -80,5 +80,29 @@ public class Helper {
         }
         return JOptionPane.showConfirmDialog(null,msg,"Sure",JOptionPane.YES_NO_OPTION)==0;
     }
+    public static void resetFormFields(JTextField... fields) {
+        for (JTextField field : fields) {
+            field.setText(null);
+        }
+    }
+
+    public static void resetCheckBoxes(JCheckBox... checkboxes) {
+        for (JCheckBox checkbox : checkboxes) {
+            checkbox.setSelected(false);
+        }
+    }
+
+    public static void resetDateFields(JTextField... dateFields) {
+        for (JTextField field : dateFields) {
+            field.setText(null);
+            field.setEnabled(false);
+            field.setEditable(false);
+        }
+    }
+    public static void resetRadioButtons(JRadioButton... radioButtons) {
+        for (JRadioButton radioButton : radioButtons) {
+            radioButton.setSelected(false);
+        }
+    }
 
 }
