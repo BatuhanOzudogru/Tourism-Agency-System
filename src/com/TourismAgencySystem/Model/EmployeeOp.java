@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class EmployeeOp {
     public static ArrayList<Hotel> getList() {
@@ -72,8 +73,8 @@ public class EmployeeOp {
         }
         return true;
     }
-    public static boolean update(int id, String name, String city, String district,String star, String address, String hotel_email, String hotel_phone,
-                                 String parking, String wifi, String pool, String gym, String concierge, String spa, String room_service) {
+    public static boolean updateHotelDetails(int id, String name, String city, String district, String star, String address, String hotel_email, String hotel_phone,
+                                             String parking, String wifi, String pool, String gym, String concierge, String spa, String room_service) {
         String query = "UPDATE hotel SET hotel_name=?,city=?,district=?,star=?,address=?,hotel_email=?,hotel_phone=?,parking=?,wifi=?,pool=?,gym=?,concierge=?,spa=?,room_service=? WHERE id=?";
 
         try {
@@ -99,5 +100,79 @@ public class EmployeeOp {
             e.printStackTrace();
         }
         return true;
+    }
+    public static boolean updateHotelPeriodDetails(int hotel_id, Date season_start, Date season_end, Date offseason_start, Date offseason_end) {
+        String query = "UPDATE hotel_period SET season_start=?,season_end=?,offseason_start=?,offseason_end=? WHERE id=?";
+
+        try {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+            ps.setDate(1, (java.sql.Date) season_start);
+            ps.setDate(2, (java.sql.Date) season_end);
+            ps.setDate(3, (java.sql.Date) offseason_start);
+            ps.setDate(4, (java.sql.Date) offseason_end);
+            ps.setInt(5, hotel_id);
+
+            return ps.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    public static ArrayList<Hotel> getHotelDetailsByHotelId(int hotelId) {
+        ArrayList<Hotel> hotelDetailsList = new ArrayList<>();
+
+        Hotel obj;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM hotel WHERE id = " + hotelId);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String hotelName = rs.getString("hotel_name");
+                String city = rs.getString("city");
+                String district = rs.getString("district");
+                String star = rs.getString("star");
+                String address = rs.getString("address");
+                String hotelEmail = rs.getString("hotel_email");
+                String hotelPhone = rs.getString("hotel_phone");
+                String parking = rs.getString("parking");
+                String wifi = rs.getString("wifi");
+                String pool = rs.getString("pool");
+                String gym = rs.getString("gym");
+                String concierge = rs.getString("concierge");
+                String spa = rs.getString("spa");
+                String roomService = rs.getString("room_service");
+
+                obj = new Hotel(id, hotelName, city, district, star, address, hotelEmail, hotelPhone, parking, wifi, pool, gym, concierge, spa, roomService);
+                hotelDetailsList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hotelDetailsList;
+    }
+    public static ArrayList<HotelPeriod> getHotelPeriodByHotelId(int hotelId) {
+        ArrayList<HotelPeriod> hotelPeriodList = new ArrayList<>();
+        HotelPeriod obj;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM hotel_period WHERE id = " + hotelId);
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                Date seasonStart = rs.getDate("season_start");
+                Date seasonEnd = rs.getDate("season_end");
+                Date offSeasonStart = rs.getDate("offseason_start");
+                Date offSeasonEnd = rs.getDate("offseason_end");
+
+                obj = new HotelPeriod(id, seasonStart, seasonEnd, offSeasonStart, offSeasonEnd);
+                hotelPeriodList.add(obj);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hotelPeriodList;
     }
 }

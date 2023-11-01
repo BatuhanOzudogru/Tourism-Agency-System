@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 public class EmployeeGUI extends JFrame {
     private JPanel wrapper;
@@ -128,6 +129,7 @@ public class EmployeeGUI extends JFrame {
     private JTextField fieldLogGuestFullname;
     private JTextField fieldLogGuestIdNumber;
     private JButton buttonLogGuestSearch;
+    private JScrollPane scrollPaneHotelDetails;
     private DefaultTableModel modelHotelHotelList;
     private Object[] rowHotelHotelList;
 
@@ -364,8 +366,13 @@ public class EmployeeGUI extends JFrame {
                     if (checkBoxRoomService.isSelected()) {
                         roomService = "Yes";
                     }
+                    Date seasonStart = Helper.stringToDate(fieldSeasonStartDate.getText());
+                    Date seasonEnd = Helper.stringToDate(fieldSeasonEndDate.getText());
+                    Date offSeasonStart = Helper.stringToDate(fieldOffSeasonStartDate.getText());
+                    Date offSeasonEnd = Helper.stringToDate(fieldOffSeasonEndDate.getText());
 
-                    if (EmployeeOp.update(id, name, city, district, star, address, mail, phone, parking, wifi, pool, gym, concierge, spa, roomService)) {
+                    if (EmployeeOp.updateHotelDetails(id, name, city, district, star, address, mail, phone, parking, wifi, pool, gym, concierge, spa, roomService)&&
+                            EmployeeOp.updateHotelPeriodDetails(id,seasonStart,seasonEnd,offSeasonStart,offSeasonEnd)) {
                         Helper.showMessage("done");
                         loadHotelModel();
 
@@ -374,7 +381,15 @@ public class EmployeeGUI extends JFrame {
                         Helper.resetDateFields(fieldSeasonStartDate, fieldSeasonEndDate, fieldOffSeasonStartDate, fieldOffSeasonEndDate);
                         Helper.resetRadioButtons(radioButtonSeason, radioButtonOffSeason);
                     }
+                    scrollPaneHotelDetails.getVerticalScrollBar().setValue(0);;
                 }
+            }
+        });
+        buttonHotelSelect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadHotelDetailsModel();
+                scrollPaneHotelDetails.getVerticalScrollBar().setValue(0);
             }
         });
     }
@@ -394,5 +409,52 @@ public class EmployeeGUI extends JFrame {
             modelHotelHotelList.addRow(rowHotelHotelList);
         }
 
+    }
+    private void loadHotelDetailsModel() {
+        int hotelId = Integer.parseInt(tableHotelHotelList.getValueAt(tableHotelHotelList.getSelectedRow(),0).toString());
+
+        for (Hotel obj : EmployeeOp.getHotelDetailsByHotelId(hotelId)) {
+            fieldHotelName.setText(obj.getName());
+            fieldHotelCity.setText(obj.getCity());
+            fieldHotelDistrict.setText(obj.getDistrict());
+            fieldHotelStar.setText(obj.getStar());
+            fieldHotelAddress.setText(obj.getAddress());
+            fieldHotelMail.setText(obj.getEmail());
+            fieldHotelPhone.setText(obj.getPhoneNumber());
+            if (obj.getParking().equals("Yes")) {
+                checkBoxParking.setSelected(true);
+            }
+            if (obj.getWifi().equals("Yes")) {
+                checkBoxWifi.setSelected(true);
+            }
+            if (obj.getPool().equals("Yes")) {
+                checkBoxPool.setSelected(true);
+            }
+            if (obj.getGym().equals("Yes")) {
+                checkBoxGym.setSelected(true);
+            }
+            if (obj.getConcierge().equals("Yes")) {
+                checkBoxConcierge.setSelected(true);
+            }
+            if (obj.getSpa().equals("Yes")) {
+                checkBoxSpa.setSelected(true);
+            }
+            if (obj.getRoomService().equals("Yes")) {
+                checkBoxRoomService.setSelected(true);
+            }
+        }
+        for (HotelPeriod obj : EmployeeOp.getHotelPeriodByHotelId(hotelId)) {
+            if (obj.getSeasonStart() != null) {
+                radioButtonSeason.setSelected(true);
+                fieldSeasonStartDate.setText(obj.getSeasonStart().toString());
+                fieldSeasonEndDate.setText(obj.getSeasonEnd().toString());
+            }
+            if (obj.getOffSeasonStart() != null) {
+                radioButtonOffSeason.setSelected(true);
+                fieldOffSeasonStartDate.setText(obj.getOffSeasonStart().toString());
+                fieldOffSeasonEndDate.setText(obj.getOffSeasonEnd().toString());
+            }
+        }
+        Helper.enableDateFields(fieldSeasonStartDate, fieldSeasonEndDate, fieldOffSeasonStartDate, fieldOffSeasonEndDate);
     }
 }
