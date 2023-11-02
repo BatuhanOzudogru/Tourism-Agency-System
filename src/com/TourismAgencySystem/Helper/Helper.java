@@ -39,6 +39,7 @@ public class Helper {
     public static boolean isFieldEmpty(JTextField field) {
         return field.getText().trim().isEmpty();
     }
+
     public static boolean isFieldEmpty(JTextArea area) {
         return area.getText().trim().isEmpty();
     }
@@ -62,7 +63,7 @@ public class Helper {
                 break;
             default:
                 msg = str;
-                title = "Message";
+                title = "Massage";
         }
         JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
@@ -72,17 +73,19 @@ public class Helper {
         UIManager.put("OptionPane.yesButtonText", "YES");
         UIManager.put("OptionPane.noButtonText", "NO");
     }
-    public static boolean confirm(String str){
+
+    public static boolean confirm(String str) {
         String msg;
-        switch (str){
+        switch (str) {
             case "sure":
-                msg= "Are you sure ?";
+                msg = "Are you sure ?";
                 break;
             default:
-                msg=str;
+                msg = str;
         }
-        return JOptionPane.showConfirmDialog(null,msg,"Sure",JOptionPane.YES_NO_OPTION)==0;
+        return JOptionPane.showConfirmDialog(null, msg, "Sure", JOptionPane.YES_NO_OPTION) == 0;
     }
+
     public static void resetFormFields(JTextField... fields) {
         for (JTextField field : fields) {
             field.setText(null);
@@ -95,24 +98,40 @@ public class Helper {
         }
     }
 
-    public static void resetDateFields(JTextField... dateFields) {
+    public static void resetTextFields(JTextField... dateFields) {
         for (JTextField field : dateFields) {
             field.setText(null);
             field.setEnabled(false);
             field.setEditable(false);
         }
     }
+
     public static void resetRadioButtons(JRadioButton... radioButtons) {
         for (JRadioButton radioButton : radioButtons) {
             radioButton.setSelected(false);
         }
     }
-    public static void enableDateFields(JTextField... dateFields) {
+
+    public static void enableTextFields(JTextField... dateFields) {
         for (JTextField field : dateFields) {
             field.setEnabled(true);
             field.setEditable(true);
         }
     }
+
+    public static void enableComboBoxes(JComboBox... comboBoxes) {
+        for (JComboBox box : comboBoxes) {
+            box.setEnabled(true);
+        }
+    }
+
+    public static void resetComboBoxes(JComboBox... comboBoxes) {
+        for (JComboBox box : comboBoxes) {
+            box.setEnabled(false);
+            box.setSelectedIndex(0);
+        }
+    }
+
     public static java.sql.Date stringToDate(String dateString) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -123,5 +142,4 @@ public class Helper {
             return null;
         }
     }
-
 }

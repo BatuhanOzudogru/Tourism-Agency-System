@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee8434ce-7b1f-4d0e-966b-1f16d09af954" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/HotelPeriod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/AccommodationType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/PeriodType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/Room.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/RoomPrice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/RoomType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Helper/Helper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Helper/Helper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java" afterDir="false" />
@@ -43,7 +47,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "354",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "133",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "326",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/batuh/OneDrive/Masaüstü/Projeler/PatikaProjeler/Tourism-Agency-System/mysql-connector-j-8.1.0.jar",
     "project.structure.last.edited": "Libraries",
