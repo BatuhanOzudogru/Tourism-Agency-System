@@ -5,16 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee8434ce-7b1f-4d0e-966b-1f16d09af954" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/AccommodationType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/PeriodType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/Room.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/RoomPrice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/RoomType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/RoomSales.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Helper/Helper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Helper/Helper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/HotelPeriod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/HotelPeriod.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/LoginGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/LoginGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,21 +37,21 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "133",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "326",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/batuh/OneDrive/Masaüstü/Projeler/PatikaProjeler/Tourism-Agency-System/mysql-connector-j-8.1.0.jar",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH&quot;: &quot;133&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;184&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/batuh/OneDrive/Masaüstü/Projeler/PatikaProjeler/Tourism-Agency-System/mysql-connector-j-8.1.0.jar&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\batuh\OneDrive\Masaüstü\Projeler\PatikaProjeler\Tourism-Agency-System" />

@@ -8,6 +8,7 @@ public class HotelPeriod {
     private Date seasonEnd;
     private Date offSeasonStart;
     private Date offSeasonEnd;
+    private int a;
 
     public HotelPeriod(int id, Date seasonStart, Date seasonEnd, Date offSeasonStart, Date offSeasonEnd) {
         this.id = id;
@@ -19,6 +20,19 @@ public class HotelPeriod {
     public HotelPeriod(){
 
     }
+    public HotelPeriod(int id, Date seasonStart, Date seasonEnd,int a) {
+        this.id = id;
+        this.seasonStart = seasonStart;
+        this.seasonEnd = seasonEnd;
+
+    }
+    public HotelPeriod(int id, Date offSeasonStart, Date offSeasonEnd) {
+        this.id = id;
+
+        this.offSeasonStart = offSeasonStart;
+        this.offSeasonEnd = offSeasonEnd;
+    }
+
 
     public int getId() {
         return id;
