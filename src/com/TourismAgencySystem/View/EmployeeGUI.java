@@ -763,8 +763,12 @@ public class EmployeeGUI extends JFrame {
         int hotelId= Integer.parseInt(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(),1).toString());
         int roomTypeId =EmployeeOp.getFetchRoomIdByName(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(),9).toString()).getId();
         int periodId = EmployeeOp.getFetchPeriodIdByName(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(),6).toString()).getId();
-        for(AccommodationType obj : EmployeeOp.getAccoNameByAccoIdList(EmployeeOp.getAccoIdByHotel(hotelId,roomTypeId,periodId),roomTypeId)){
-            comboBoxResHostelType.addItem(new Item(obj.getId(), obj.getAccoName()));
+//        for(AccommodationType obj : EmployeeOp.getAccoNameByAccoIdList(EmployeeOp.getAccoIdByHotel(hotelId,roomTypeId,periodId),roomTypeId)){
+//            comboBoxResHostelType.addItem(new Item(obj.getId(), obj.getAccoName()));
+//        }
+        for(RoomPrice obj : EmployeeOp.getAccoIdByHotel(hotelId,roomTypeId,periodId)){
+            //EmployeeOp.getFetchAccoNameById(obj.getAccommodationId());
+            comboBoxResHostelType.addItem(EmployeeOp.getFetchAccoNameById(obj.getAccommodationId()).getAccoName());
         }
     }
     public void loadHotelModel() {

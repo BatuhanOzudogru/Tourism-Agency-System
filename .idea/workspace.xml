@@ -5,9 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee8434ce-7b1f-4d0e-966b-1f16d09af954" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -122,5 +119,43 @@
       <updated>1698694066423</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.java</url>
+          <line>765</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java</url>
+          <line>285</line>
+          <properties class="com.TourismAgencySystem.Model.EmployeeOp" method="getAccoIdByHotel">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java</url>
+          <line>267</line>
+          <properties class="com.TourismAgencySystem.Model.EmployeeOp" method="getFetchRoomIdByName">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java</url>
+          <line>311</line>
+          <properties class="com.TourismAgencySystem.Model.EmployeeOp" method="getAccoNameByAccoIdList">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
