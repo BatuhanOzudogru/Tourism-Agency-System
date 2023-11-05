@@ -2,6 +2,7 @@ package com.TourismAgencySystem.View;
 
 import com.TourismAgencySystem.Helper.Config;
 import com.TourismAgencySystem.Helper.Helper;
+import com.TourismAgencySystem.Helper.Item;
 import com.TourismAgencySystem.Model.*;
 
 import javax.swing.*;
@@ -99,7 +100,7 @@ public class EmployeeGUI extends JFrame {
     private JCheckBox fitnessCenterCheckBox;
     private JCheckBox conciergeCheckBox;
     private JCheckBox spaCheckBox;
-    private JCheckBox a724RoomServicesCheckBox;
+    private JCheckBox roomServiceCheckBox;
     private JTextField fieldResBed;
     private JTextField fieldResRoomSize;
     private JTextField fieldResTv;
@@ -511,6 +512,34 @@ public class EmployeeGUI extends JFrame {
                     if (EmployeeOp.addRoomDetails(hotel_id, room_type_id, stock, bed, size, tv, minibar)) {
                         Helper.showMessage("done");
                     }
+
+                    String name = fieldHotelName.getText();
+                    String city = fieldHotelCity.getText();
+                    String district = fieldHotelDistrict.getText();
+                    String star = fieldHotelStar.getText();
+                    String periodName ;
+                    String roomName = comboBoxRoomType.getSelectedItem().toString();
+                    Date periodStart;
+                    Date periodEnd;
+                    if(radioButtonSeason.isSelected()){
+                         periodName = "Season";
+                        periodStart=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonStart();
+                        periodEnd=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonEnd();
+
+                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName)) {
+
+                        }
+                    }
+                    if(radioButtonOffSeason.isSelected()){
+                        periodName = "Off Season";
+                        periodStart=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
+                        periodEnd=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
+                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName)) {
+
+                        }
+                    }
+                    loadSalesRoomModel();
+
                     scrollPaneHotelDetails.getVerticalScrollBar().setValue(0);
                 }
             }
@@ -558,30 +587,30 @@ public class EmployeeGUI extends JFrame {
                     } else {
                         Helper.showMessage("error");
                     }
-                    String name = fieldHotelName.getText();
-                    String city = fieldHotelCity.getText();
-                    String district = fieldHotelDistrict.getText();
-                    String star = fieldHotelStar.getText();
-                    String periodName = comboBoxPeriodSingle.getSelectedItem().toString();
-                    String roomName = radioButtonSingle.getText().toString();
-                    Date periodStart;
-                    Date periodEnd;
-
-                    if (periodName.equals("Season")){
-
-                        periodStart=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonStart();
-                        periodEnd=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonEnd();
-
-                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName)) {
-                            Helper.showMessage("done");
-                        }
-                    } else if (periodName.equals("Off Season")) {
-                        periodStart=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
-                        periodEnd=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
-                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName)) {
-                            Helper.showMessage("done");
-                        }
-                    }
+//                    String name = fieldHotelName.getText();
+//                    String city = fieldHotelCity.getText();
+//                    String district = fieldHotelDistrict.getText();
+//                    String star = fieldHotelStar.getText();
+//                    String periodName = comboBoxPeriodSingle.getSelectedItem().toString();
+//                    String roomName = radioButtonSingle.getText().toString();
+//                    Date periodStart;
+//                    Date periodEnd;
+//
+//                    if (periodName.equals("Season")){
+//
+//                        periodStart=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonStart();
+//                        periodEnd=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonEnd();
+//
+//                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName)) {
+//                            Helper.showMessage("done");
+//                        }
+//                    } else if (periodName.equals("Off Season")) {
+//                        periodStart=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
+//                        periodEnd=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
+//                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName)) {
+//                            Helper.showMessage("done");
+//                        }
+//                    }
                     radioButtonSingle.setSelected(false);
                     Helper.resetComboBoxes(comboBoxPeriodSingle, comboBoxHostelTypeSingle);
                     Helper.resetTextFields(fieldAdultPriceSingle, fieldChildPriceSingle);
@@ -656,6 +685,87 @@ public class EmployeeGUI extends JFrame {
                 }
             }
         });
+        buttonSearchSelect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                boolean isRowSelected = !(tableSearchHotelList.getSelectionModel().isSelectionEmpty());
+                if(isRowSelected){
+                    int hotelId= Integer.parseInt(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(),1).toString());
+                    labelHotelName.setText(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(),2).toString());
+                    labelResRoomType.setText(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(),9).toString());
+                    fieldResCheckin.setText(fieldSearchCheckin.getText().toString());
+                    fieldResCheckout.setText(fieldSearchCheckout.getText().toString());
+
+                    if(fieldSearchAdult.getText().isEmpty()){
+                        labelResAdult.setText("");
+                    }else if(Integer.parseInt(fieldSearchAdult.getText().toString())==0){
+                        labelResAdult.setText("");
+                    }else if(Integer.parseInt(fieldSearchAdult.getText().toString())>1){
+                        labelResAdult.setText(fieldSearchAdult.getText().toString() + "x Adults");
+                    }else {
+                        labelResAdult.setText(fieldSearchAdult.getText().toString() + "x Adult");
+                    }
+                    if (fieldSearchChild.getText().isEmpty()) {
+                        labelResChild.setText("");
+                    }else if(Integer.parseInt(fieldSearchChild.getText().toString())==0){
+                        labelResChild.setText("");
+                    } else if(Integer.parseInt(fieldSearchChild.getText().toString())>1){
+                        labelResChild.setText(fieldSearchChild.getText().toString() + "x Children");
+                    }else {
+                        labelResChild.setText(fieldSearchChild.getText().toString() + "x Child");
+                    }
+                    for (Hotel obj : EmployeeOp.getHotelDetailsByHotelId(hotelId)) {
+                        fieldResDetailCity.setText(obj.getCity().toString());
+                        fieldResDetailDistrict.setText(obj.getDistrict().toString());
+                        fieldResDetailAddress.setText(obj.getAddress().toString());
+                        fieldResDetailPhone.setText(obj.getPhoneNumber().toString());
+                        fieldResDetailStar.setText(obj.getStar().toString());
+                        if(obj.getParking().equals("Yes")){
+                            freeParkingCheckBox.setSelected(true);
+                        }
+                        if(obj.getWifi().equals("Yes")){
+                            wiFiCheckBox.setSelected(true);
+                        }
+                        if(obj.getPool().equals("Yes")){
+                            swimmingPoolCheckBox.setSelected(true);
+                        }
+                        if(obj.getGym().equals("Yes")){
+                            fitnessCenterCheckBox.setSelected(true);
+                        }
+                        if(obj.getConcierge().equals("Yes")){
+                            conciergeCheckBox.setSelected(true);
+                        }
+                        if(obj.getSpa().equals("Yes")){
+                            spaCheckBox.setSelected(true);
+                        }
+                        if(obj.getRoomService().equals("Yes")){
+                            roomServiceCheckBox.setSelected(true);
+                        }
+                    }
+                    String roomName = (tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(),9).toString());
+                    for (Room obj : EmployeeOp.getRoomDetailsByHotelId(hotelId,EmployeeOp.getFetchRoomIdByName(roomName).getId())){
+                        fieldResBed.setText(String.valueOf(obj.getBed()));
+                        fieldResMinibar.setText(String.valueOf(obj.getMinibar()));
+                        fieldResRoomSize.setText(String.valueOf(obj.getRoomSize()));
+                        fieldResTv.setText(String.valueOf(obj.getTv()));
+                    }
+                }else {
+                    Helper.showMessage("Please make a selection from the table below");
+                }
+                loadAccoCombo();
+
+            }
+        });
+    }
+    public void loadAccoCombo(){
+        comboBoxResHostelType.removeAllItems();
+        int hotelId= Integer.parseInt(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(),1).toString());
+        int roomTypeId =EmployeeOp.getFetchRoomIdByName(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(),9).toString()).getId();
+        int periodId = EmployeeOp.getFetchPeriodIdByName(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(),6).toString()).getId();
+        for(AccommodationType obj : EmployeeOp.getAccoNameByAccoIdList(EmployeeOp.getAccoIdByHotel(hotelId,roomTypeId,periodId),roomTypeId)){
+            comboBoxResHostelType.addItem(new Item(obj.getId(), obj.getAccoName()));
+        }
     }
     public void loadHotelModel() {
         DefaultTableModel clearModel = (DefaultTableModel) tableHotelHotelList.getModel();
@@ -794,6 +904,7 @@ public class EmployeeGUI extends JFrame {
         clearModel.setRowCount(0);
         int i;
         for (RoomSales obj : EmployeeOp.getRoomSalesList()) {
+
             i = 0;
             rowSearchHotelList[i++] = obj.getId();
             rowSearchHotelList[i++] = obj.getHotelId();
