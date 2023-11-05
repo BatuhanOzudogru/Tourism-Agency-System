@@ -11,6 +11,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -224,7 +226,7 @@ public class EmployeeGUI extends JFrame {
             }
         };
 
-        Object[] colSearchHotelList = {"ID", "Hotel ID", "Hotel Name", "City", "District", "Star", "Period", "Start Date", "End Date", "Room Type"};
+        Object[] colSearchHotelList = {"ID", "Hotel ID", "Hotel Name", "City", "District", "Star", "Period", "Start Date", "End Date", "Room Type","Stock"};
         modelSearchHotelList.setColumnIdentifiers(colSearchHotelList);
         rowSearchHotelList = new Object[colSearchHotelList.length];
 
@@ -526,7 +528,7 @@ public class EmployeeGUI extends JFrame {
                         periodStart=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonStart();
                         periodEnd=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonEnd();
 
-                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName)) {
+                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName,stock)) {
 
                         }
                     }
@@ -534,7 +536,7 @@ public class EmployeeGUI extends JFrame {
                         periodName = "Off Season";
                         periodStart=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
                         periodEnd=EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
-                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName)) {
+                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName,stock)) {
 
                         }
                     }
@@ -754,7 +756,33 @@ public class EmployeeGUI extends JFrame {
                     Helper.showMessage("Please make a selection from the table below");
                 }
                 loadAccoCombo();
+                tabbedPane3.setSelectedIndex(1);
 
+            }
+        });
+        buttonResReserve.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane3.setSelectedIndex(2);
+            }
+        });
+        buttonSearchSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(fieldSearchHotelCityDistrict) || Helper.isFieldEmpty(fieldSearchCheckin) || Helper.isFieldEmpty(fieldSearchCheckout)) {
+                    Helper.showMessage("fill");
+                } else {
+
+                    String input = fieldSearchHotelCityDistrict.getText();
+                    String star = fieldSearchStar.getText();
+                    Date checkIn = Helper.stringToDate(fieldSearchCheckin.getText());
+                    Date checkOut = Helper.stringToDate(fieldSearchCheckout.getText());
+
+
+                    String query = EmployeeOp.searchRoomSalesQuery(input, star, checkIn, checkOut);
+                    ArrayList<RoomSales> searchRoomSales = EmployeeOp.searchRoomSalesList(query);
+                    loadSalesRoomModel(searchRoomSales);
+                }
             }
         });
     }
@@ -908,7 +936,6 @@ public class EmployeeGUI extends JFrame {
         clearModel.setRowCount(0);
         int i;
         for (RoomSales obj : EmployeeOp.getRoomSalesList()) {
-
             i = 0;
             rowSearchHotelList[i++] = obj.getId();
             rowSearchHotelList[i++] = obj.getHotelId();
@@ -921,7 +948,36 @@ public class EmployeeGUI extends JFrame {
             rowSearchHotelList[i++] = obj.getEndDate();
             rowSearchHotelList[i++] = obj.getRoomType();
 
-            modelSearchHotelList.addRow(rowSearchHotelList);
+            if (obj.getStock() != 0) {
+                rowSearchHotelList[i++] = obj.getStock();
+                modelSearchHotelList.addRow(rowSearchHotelList);
+            }
+
+        }
+    }
+
+    public void loadSalesRoomModel(ArrayList<RoomSales> list) {
+        DefaultTableModel clearModel = (DefaultTableModel) tableSearchHotelList.getModel();
+        clearModel.setRowCount(0);
+        int i;
+        for (RoomSales obj : list) {
+            i = 0;
+            rowSearchHotelList[i++] = obj.getId();
+            rowSearchHotelList[i++] = obj.getHotelId();
+            rowSearchHotelList[i++] = obj.getHotelName();
+            rowSearchHotelList[i++] = obj.getCity();
+            rowSearchHotelList[i++] = obj.getDistrict();
+            rowSearchHotelList[i++] = obj.getStar();
+            rowSearchHotelList[i++] = obj.getPeriod();
+            rowSearchHotelList[i++] = obj.getStartDate();
+            rowSearchHotelList[i++] = obj.getEndDate();
+            rowSearchHotelList[i++] = obj.getRoomType();
+
+            if (obj.getStock() != 0) {
+                rowSearchHotelList[i++] = obj.getStock();
+                modelSearchHotelList.addRow(rowSearchHotelList);
+            }
+
         }
     }
 

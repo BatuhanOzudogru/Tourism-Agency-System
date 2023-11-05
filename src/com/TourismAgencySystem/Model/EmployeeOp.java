@@ -109,6 +109,7 @@ public class EmployeeOp {
                 obj.setStartDate(rs.getDate("start_date"));
                 obj.setEndDate(rs.getDate("end_date"));
                 obj.setRoomType(rs.getString("room_type"));
+                obj.setStock(rs.getInt("stock"));
 
                 hotelRoomSalesList.add(obj);
             }
@@ -391,8 +392,8 @@ public class EmployeeOp {
         return true;
     }
 
-    public static boolean addRoomSalesDetails(int hotel_id, String hotel_name, String city, String district, String star, String period, Date start_date, Date end_date, String room_type) {
-        String query = "INSERT INTO room_sales (hotel_id,hotel_name,city,district,star,period,start_date,end_date,room_type) VALUES (?,?,?,?,?,?,?,?,?)";
+    public static boolean addRoomSalesDetails(int hotel_id, String hotel_name, String city, String district, String star, String period, Date start_date, Date end_date, String room_type,int stock) {
+        String query = "INSERT INTO room_sales (hotel_id,hotel_name,city,district,star,period,start_date,end_date,room_type,stock) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
@@ -405,6 +406,7 @@ public class EmployeeOp {
             pr.setDate(7, (java.sql.Date) start_date);
             pr.setDate(8, (java.sql.Date) end_date);
             pr.setString(9, room_type);
+            pr.setInt(10,stock);
 
 
             int response = pr.executeUpdate();
@@ -506,8 +508,8 @@ public class EmployeeOp {
         return true;
     }
 
-    public static boolean updateRoomSales(int id, int hotel_id, String hotel_name, String city, String district, String star, String period, Date start_date, Date end_date, String room_type) {
-        String query = "UPDATE room_sales SET hotel_id=?,hotel_name=?,city=?,district=?,star=?,period=?,start_date=?,end_date=?,room_type=? WHERE id=?";
+    public static boolean updateRoomSales(int id, int hotel_id, String hotel_name, String city, String district, String star, String period, Date start_date, Date end_date, String room_type,int stock) {
+        String query = "UPDATE room_sales SET hotel_id=?,hotel_name=?,city=?,district=?,star=?,period=?,start_date=?,end_date=?,room_type=?, stock=? WHERE id=?";
 
         try {
             PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
@@ -520,7 +522,8 @@ public class EmployeeOp {
             ps.setDate(7, (java.sql.Date) start_date);
             ps.setDate(8, (java.sql.Date) end_date);
             ps.setString(9, room_type);
-            ps.setInt(10, id);
+            ps.setInt(10,stock);
+            ps.setInt(11, id);
 
             return ps.executeUpdate() != -1;
         } catch (SQLException e) {
@@ -744,5 +747,44 @@ public class EmployeeOp {
             e.printStackTrace();
         }
         return hotelList;
+    }
+    public static String searchRoomSalesQuery(String input, String star, Date checkIn, Date checkOut) {
+        String query = "SELECT * FROM room_sales WHERE (hotel_name LIKE '%" + input + "%' OR city = '" + input + "' OR district = '" + input + "') " +
+                "AND start_date <= '" + checkIn + "' AND end_date >= '" + checkOut + "' ";
+
+        if (!star.isEmpty()) {
+            query += " AND star= '" + star + "'";
+        }
+
+        return query;
+    }
+
+    public static ArrayList<RoomSales> searchRoomSalesList(String query) {
+        ArrayList<RoomSales> roomSalesList = new ArrayList<>();
+
+        RoomSales obj;
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                obj = new RoomSales();
+                obj.setId(rs.getInt("id"));
+                obj.setHotelId(rs.getInt("hotel_id"));
+                obj.setHotelName(rs.getString("hotel_name"));
+                obj.setCity(rs.getString("city"));
+                obj.setDistrict(rs.getString("district"));
+                obj.setStar(rs.getString("star"));
+                obj.setPeriod(rs.getString("period"));
+                obj.setStartDate(rs.getDate("start_date"));
+                obj.setEndDate(rs.getDate("end_date"));
+                obj.setRoomType(rs.getString("room_type"));
+                obj.setStock(rs.getInt("stock"));
+
+                roomSalesList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return roomSalesList;
     }
 }
