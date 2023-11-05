@@ -67,6 +67,7 @@ public class EmployeeOp {
         return roomPriceList;
     }
 
+
     public static ArrayList<HotelPeriod> getHotelPeriodList() {
         ArrayList<HotelPeriod> hotelPeriodList = new ArrayList<>();
         String query = "SELECT * FROM hotel_period";
@@ -117,6 +118,30 @@ public class EmployeeOp {
             e.printStackTrace();
         }
         return hotelRoomSalesList;
+    }
+    public static ArrayList<Reservation> getResList() {
+        ArrayList<Reservation> resList = new ArrayList<>();
+        String query = "SELECT * FROM reservation";
+        Reservation obj;
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                obj = new Reservation();
+                obj.setId(rs.getInt("id"));
+                obj.setHotelId(rs.getInt("hotel_id"));
+                obj.setCity(rs.getString("city"));
+                obj.setGuestCount(rs.getInt("guest_count"));
+                obj.setCheckinDate(rs.getDate("checkin_date"));
+                obj.setCheckoutDate(rs.getDate("checkout_date"));
+                obj.setDuration(rs.getInt("duration"));
+                obj.setTotalPrice(rs.getInt("price"));
+                resList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resList;
     }
 
     public static boolean addHotelDetails(String name, String city, String district, String star, String address, String hotel_email, String hotel_phone,
@@ -310,26 +335,32 @@ public class EmployeeOp {
         }
         return accoIdList;
     }
-    public static ArrayList<AccommodationType> getAccoNameByAccoIdList(ArrayList<RoomPrice> roomPrice, int roomTypeId) {
-        ArrayList<AccommodationType> accoIdList = new ArrayList<>();
 
-        AccommodationType obj;
+    public static RoomPrice getAccoPrice(int hotelId, int roomTypeId, int periodId, int accomId) {
+        RoomPrice obj = null;
 
         try {
             Statement st = DBConnector.getInstance().createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM accommodation_type WHERE id = " + roomPrice.get(roomTypeId).getAccommodationId());
+            ResultSet rs = st.executeQuery("SELECT * FROM room_price WHERE hotel_id = " + hotelId + " AND room_type = " + roomTypeId + " AND period_id = " + periodId + " AND accommodation_id = " + accomId);
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String accoName= rs.getString("accommodation_name");
-                obj = new AccommodationType(id,accoName);
-                accoIdList.add(obj);
+                int hotel_id = rs.getInt("hotel_id");
+                int room_type_id = rs.getInt("room_type");
+                int accoId = rs.getInt("accommodation_id");
+                int adultPrice = rs.getInt("adult_price");
+                int childPrice = rs.getInt("child_price");
+
+
+                obj = new RoomPrice(id, hotel_id, periodId, room_type_id, accoId, adultPrice, childPrice);
+
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return accoIdList;
+        return obj;
     }
+
 
     public static AccommodationType getFetchAccoNameById(int accoId) {
         AccommodationType obj = null;
@@ -392,7 +423,7 @@ public class EmployeeOp {
         return true;
     }
 
-    public static boolean addRoomSalesDetails(int hotel_id, String hotel_name, String city, String district, String star, String period, Date start_date, Date end_date, String room_type,int stock) {
+    public static boolean addRoomSalesDetails(int hotel_id, String hotel_name, String city, String district, String star, String period, Date start_date, Date end_date, String room_type, int stock) {
         String query = "INSERT INTO room_sales (hotel_id,hotel_name,city,district,star,period,start_date,end_date,room_type,stock) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         try {
@@ -406,7 +437,33 @@ public class EmployeeOp {
             pr.setDate(7, (java.sql.Date) start_date);
             pr.setDate(8, (java.sql.Date) end_date);
             pr.setString(9, room_type);
-            pr.setInt(10,stock);
+            pr.setInt(10, stock);
+
+
+            int response = pr.executeUpdate();
+            if (response == -1) {
+                Helper.showMessage("error");
+            }
+            return response != -1;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public static boolean addReservationDetails(int hotelId, String city, int guestCount, Date checkinDate, Date checkoutDate, int duration, int totalPrice) {
+        String query = "INSERT INTO reservation (hotel_id,city,guest_count,checkin_date,checkout_date,duration,price) VALUES (?,?,?,?,?,?,?)";
+
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, hotelId);
+            pr.setString(2, city);
+            pr.setInt(3, guestCount);
+            pr.setDate(4, (java.sql.Date) checkinDate);
+            pr.setDate(5, (java.sql.Date) checkoutDate);
+            pr.setInt(6, duration);
+            pr.setInt(7, totalPrice);
 
 
             int response = pr.executeUpdate();
@@ -508,7 +565,7 @@ public class EmployeeOp {
         return true;
     }
 
-    public static boolean updateRoomSales(int id, int hotel_id, String hotel_name, String city, String district, String star, String period, Date start_date, Date end_date, String room_type,int stock) {
+    public static boolean updateRoomSales(int id, int hotel_id, String hotel_name, String city, String district, String star, String period, Date start_date, Date end_date, String room_type, int stock) {
         String query = "UPDATE room_sales SET hotel_id=?,hotel_name=?,city=?,district=?,star=?,period=?,start_date=?,end_date=?,room_type=?, stock=? WHERE id=?";
 
         try {
@@ -522,7 +579,7 @@ public class EmployeeOp {
             ps.setDate(7, (java.sql.Date) start_date);
             ps.setDate(8, (java.sql.Date) end_date);
             ps.setString(9, room_type);
-            ps.setInt(10,stock);
+            ps.setInt(10, stock);
             ps.setInt(11, id);
 
             return ps.executeUpdate() != -1;
@@ -565,7 +622,38 @@ public class EmployeeOp {
         }
         return hotelDetailsList;
     }
+    public static Hotel getHotelNameByHotelId(int hotelId) {
 
+        Hotel obj=null;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM hotel WHERE id = " + hotelId);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String hotelName = rs.getString("hotel_name");
+                String city = rs.getString("city");
+                String district = rs.getString("district");
+                String star = rs.getString("star");
+                String address = rs.getString("address");
+                String hotelEmail = rs.getString("hotel_email");
+                String hotelPhone = rs.getString("hotel_phone");
+                String parking = rs.getString("parking");
+                String wifi = rs.getString("wifi");
+                String pool = rs.getString("pool");
+                String gym = rs.getString("gym");
+                String concierge = rs.getString("concierge");
+                String spa = rs.getString("spa");
+                String roomService = rs.getString("room_service");
+
+                obj = new Hotel(id, hotelName, city, district, star, address, hotelEmail, hotelPhone, parking, wifi, pool, gym, concierge, spa, roomService);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
     public static ArrayList<Room> getRoomDetailsByHotelId(int hotelId, int roomTypeId) {
         ArrayList<Room> roomDetailsList = new ArrayList<>();
 
@@ -592,6 +680,34 @@ public class EmployeeOp {
             e.printStackTrace();
         }
         return roomDetailsList;
+    }
+
+    public static Room getGuestRoomDetailsByHotelId(int hotelId, int roomTypeId) {
+
+
+        Room obj = null;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM room WHERE hotel_id = " + hotelId + " AND room_type_id = " + roomTypeId);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int hotel_id = rs.getInt("hotel_id");
+                int room_type_id = rs.getInt("room_type_id");
+                int bed = rs.getInt("bed");
+                int tv = rs.getInt("tv");
+                int minibar = rs.getInt("minibar");
+                int room_size = rs.getInt("room_size");
+                int stock = rs.getInt("stock");
+
+                obj = new Room(id, hotel_id, room_type_id, bed, tv, minibar, room_size, stock);
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
     public static ArrayList<HotelPeriod> getHotelPeriodByHotelId(int hotelId) {
@@ -748,6 +864,7 @@ public class EmployeeOp {
         }
         return hotelList;
     }
+
     public static String searchRoomSalesQuery(String input, String star, Date checkIn, Date checkOut) {
         String query = "SELECT * FROM room_sales WHERE (hotel_name LIKE '%" + input + "%' OR city = '" + input + "' OR district = '" + input + "') " +
                 "AND start_date <= '" + checkIn + "' AND end_date >= '" + checkOut + "' ";
