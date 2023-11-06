@@ -135,6 +135,7 @@ public class Helper {
             box.setSelectedIndex(0);
         }
     }
+
     public static void visibleTextFields(JTextField... dateFields) {
         for (JTextField field : dateFields) {
             field.setVisible(true);
@@ -146,6 +147,7 @@ public class Helper {
             box.setVisible(true);
         }
     }
+
     public static void visibleJLabel(JLabel... JLabels) {
         for (JLabel lbl : JLabels) {
             lbl.setVisible(true);
@@ -162,20 +164,23 @@ public class Helper {
             return null;
         }
     }
-    public static int daysBetweenToDates (JTextField d1,JTextField d2){
+
+    public static int daysBetweenToDates(JTextField d1, JTextField d2) {
         LocalDate date1 = LocalDate.parse(d1.getText());
         LocalDate date2 = LocalDate.parse(d2.getText());
         int daysBetween = (int) ChronoUnit.DAYS.between(date1, date2);
         return daysBetween;
     }
-    public static int resPrice(JTextField adultNumber,JTextField childNumber,int adultPrice , int childPrice,int duration){
-         int a=  Integer.parseInt(adultNumber.getText());
-         int b=  Integer.parseInt(childNumber.getText());
-        int totalAdultPrice= a*adultPrice;
-        int totalChildPrice= b*childPrice;
-        int totalPrice=totalChildPrice+totalAdultPrice;
 
-        return  totalPrice*duration ;
+    public static int resPrice(JTextField adultNumber, JTextField childNumber, int adultPrice, int childPrice, int duration) {
+
+        int a = Integer.parseInt(adultNumber.getText());
+        int b = Integer.parseInt(childNumber.getText());
+        int totalAdultPrice = a * adultPrice;
+        int totalChildPrice = b * childPrice;
+        int totalPrice = totalChildPrice + totalAdultPrice;
+
+        return totalPrice * duration;
     }
 
 }

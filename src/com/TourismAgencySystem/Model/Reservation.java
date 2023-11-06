@@ -5,17 +5,18 @@ import java.util.Date;
 public class Reservation {
     private int id;
     private int hotelId;
+    private String hotelName;
     private String city;
     private int guestCount;
-
     private Date checkinDate;
     private Date checkoutDate;
     private int totalPrice;
     private int duration;
 
-    public Reservation(int id, int hotelId, String city, int guestCount, Date checkinDate, Date checkoutDate,int duration, int totalPrice) {
+    public Reservation(int id, int hotelId,String hotelName, String city, int guestCount, Date checkinDate, Date checkoutDate,int duration, int totalPrice) {
         this.id = id;
         this.hotelId = hotelId;
+        this.hotelName=hotelName;
         this.city = city;
         this.guestCount = guestCount;
         this.checkinDate = checkinDate;
@@ -25,6 +26,14 @@ public class Reservation {
     }
 
     public Reservation() {
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
     }
 
     public int getId() {
