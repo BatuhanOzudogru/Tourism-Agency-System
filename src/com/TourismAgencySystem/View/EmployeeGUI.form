@@ -527,7 +527,7 @@
                             <properties/>
                             <border type="none"/>
                             <children>
-                              <grid id="bd7e1" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                              <grid id="bd7e1" layout-manager="GridLayoutManager" row-count="7" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="0" left="0" bottom="0" right="0"/>
                                 <constraints/>
                                 <properties/>
@@ -544,7 +544,7 @@
                                       <enabled value="false"/>
                                     </properties>
                                   </component>
-                                  <component id="efe64" class="javax.swing.JTextField" binding="fieldRoomStock">
+                                  <component id="efe64" class="javax.swing.JTextField" binding="fieldRoomSeasonStock">
                                     <constraints>
                                       <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                         <preferred-size width="150" height="-1"/>
@@ -557,12 +557,12 @@
                                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
-                                      <text value="Stock"/>
+                                      <text value="Season Stock"/>
                                     </properties>
                                   </component>
                                   <component id="e924c" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="Beds"/>
@@ -570,7 +570,7 @@
                                   </component>
                                   <component id="15a07" class="javax.swing.JTextField" binding="fieldRoomBedCount">
                                     <constraints>
-                                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                         <preferred-size width="150" height="-1"/>
                                       </grid>
                                     </constraints>
@@ -578,7 +578,7 @@
                                   </component>
                                   <component id="57424" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="m²"/>
@@ -586,7 +586,7 @@
                                   </component>
                                   <component id="75bf0" class="javax.swing.JTextField" binding="fieldRoomSize">
                                     <constraints>
-                                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                      <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                         <preferred-size width="150" height="-1"/>
                                       </grid>
                                     </constraints>
@@ -594,7 +594,7 @@
                                   </component>
                                   <component id="698a3" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="TV"/>
@@ -602,7 +602,7 @@
                                   </component>
                                   <component id="e789b" class="javax.swing.JTextField" binding="fieldRoomTv">
                                     <constraints>
-                                      <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                      <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                         <preferred-size width="150" height="-1"/>
                                       </grid>
                                     </constraints>
@@ -610,7 +610,7 @@
                                   </component>
                                   <component id="aa9c8" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="Minibar"/>
@@ -618,7 +618,23 @@
                                   </component>
                                   <component id="35716" class="javax.swing.JTextField" binding="fieldRoomMinibar">
                                     <constraints>
-                                      <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                      <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                        <preferred-size width="150" height="-1"/>
+                                      </grid>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                  <component id="b8a9c" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Off-Season Stock"/>
+                                    </properties>
+                                  </component>
+                                  <component id="5df72" class="javax.swing.JTextField" binding="fieldRoomOffSeasonStock">
+                                    <constraints>
+                                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                         <preferred-size width="150" height="-1"/>
                                       </grid>
                                     </constraints>

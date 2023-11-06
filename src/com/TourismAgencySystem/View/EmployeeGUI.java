@@ -52,7 +52,7 @@ public class EmployeeGUI extends JFrame {
     private JButton buttonRoomTypeUpdate;
     private JButton buttonRoomTypeAdd;
     private JTextField fieldRoomTypeName;
-    private JTextField fieldRoomStock;
+    private JTextField fieldRoomSeasonStock;
     private JTextField fieldRoomBedCount;
     private JTextField fieldRoomSize;
     private JTextField fieldRoomTv;
@@ -207,6 +207,7 @@ public class EmployeeGUI extends JFrame {
     private JComboBox comboBoxGuestType8;
     private JComboBox comboBoxGuestType9;
     private JComboBox comboBoxGuestType10;
+    private JTextField fieldRoomOffSeasonStock;
     private DefaultTableModel modelHotelHotelList;
     private Object[] rowHotelHotelList;
     private DefaultTableModel modelPriceRoomList;
@@ -215,6 +216,8 @@ public class EmployeeGUI extends JFrame {
     private Object[] rowSearchHotelList;
     private DefaultTableModel modelLogResReservationList;
     private Object[] rowLogResReservationList;
+    private DefaultTableModel modelLogGuestGuestList;
+    private Object[] rowLogGuestGuestList;
     private Employee employee;
 
     public EmployeeGUI(Employee employee) {
@@ -327,6 +330,25 @@ public class EmployeeGUI extends JFrame {
         tableLogResReservationList.setModel(modelLogResReservationList);
         tableLogResReservationList.getTableHeader().setReorderingAllowed(false);
 
+        modelLogGuestGuestList = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (column == 0 || column == 1 || column == 2 || column == 3
+                        || column == 4 || column == 5) {
+                    return false;
+                }
+                return super.isCellEditable(row, column);
+            }
+        };
+
+        Object[] colLogGuestGuestList = {"ID", "Reservation ID", "Full Name", "Nationality ID", "Phone Number", "Email"};
+        modelLogGuestGuestList.setColumnIdentifiers(colLogGuestGuestList);
+        rowLogGuestGuestList = new Object[colLogGuestGuestList.length];
+
+        loadGuestModel();
+
+        tableLogGuestGuestList.setModel(modelLogGuestGuestList);
+        tableLogGuestGuestList.getTableHeader().setReorderingAllowed(false);
 
         radioButtonSeason.addActionListener(new ActionListener() {
             @Override
@@ -576,7 +598,7 @@ public class EmployeeGUI extends JFrame {
         buttonRoomTypeNew.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Helper.resetFormFields(fieldRoomTypeName, fieldRoomBedCount, fieldRoomSize, fieldRoomTv, fieldRoomMinibar, fieldRoomStock);
+                Helper.resetFormFields(fieldRoomTypeName, fieldRoomBedCount, fieldRoomSize, fieldRoomTv, fieldRoomMinibar, fieldRoomSeasonStock);
                 fieldRoomTypeName.setText(comboBoxRoomType.getSelectedItem().toString());
             }
         });
@@ -598,19 +620,20 @@ public class EmployeeGUI extends JFrame {
         buttonRoomTypeAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if ((Helper.isFieldEmpty(fieldRoomStock) || Helper.isFieldEmpty(fieldRoomBedCount) || Helper.isFieldEmpty(fieldRoomSize) || Helper.isFieldEmpty(fieldRoomTv)
+                if ((Helper.isFieldEmpty(fieldRoomSeasonStock) || Helper.isFieldEmpty(fieldRoomOffSeasonStock) || Helper.isFieldEmpty(fieldRoomBedCount) || Helper.isFieldEmpty(fieldRoomSize) || Helper.isFieldEmpty(fieldRoomTv)
                         || Helper.isFieldEmpty(fieldRoomMinibar))) {
                     Helper.showMessage("fill");
                 } else {
                     int hotel_id = Integer.parseInt(tableHotelHotelList.getValueAt(tableHotelHotelList.getSelectedRow(), 0).toString());
                     int room_type_id = EmployeeOp.getFetchRoomType(comboBoxRoomType.getSelectedItem().toString()).getId();
-                    int stock = Integer.parseInt(fieldRoomStock.getText());
+                    int seasonStock = Integer.parseInt(fieldRoomSeasonStock.getText());
+                    int offSeasonStock = Integer.parseInt(fieldRoomOffSeasonStock.getText());
                     int bed = Integer.parseInt(fieldRoomBedCount.getText());
                     int size = Integer.parseInt(fieldRoomSize.getText());
                     int tv = Integer.parseInt(fieldRoomTv.getText());
                     int minibar = Integer.parseInt(fieldRoomMinibar.getText());
 
-                    if (EmployeeOp.addRoomDetails(hotel_id, room_type_id, stock, bed, size, tv, minibar)) {
+                    if (EmployeeOp.addRoomDetails(hotel_id, room_type_id, seasonStock, offSeasonStock, bed, size, tv, minibar)) {
                         Helper.showMessage("done");
                     }
 
@@ -627,7 +650,7 @@ public class EmployeeGUI extends JFrame {
                         periodStart = EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonStart();
                         periodEnd = EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonEnd();
 
-                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, stock)) {
+                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, seasonStock)) {
 
                         }
                     }
@@ -635,7 +658,7 @@ public class EmployeeGUI extends JFrame {
                         periodName = "Off Season";
                         periodStart = EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
                         periodEnd = EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
-                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, stock)) {
+                        if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, offSeasonStock)) {
 
                         }
                     }
@@ -648,21 +671,26 @@ public class EmployeeGUI extends JFrame {
         buttonRoomTypeUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if ((Helper.isFieldEmpty(fieldRoomStock) || Helper.isFieldEmpty(fieldRoomBedCount) || Helper.isFieldEmpty(fieldRoomSize) || Helper.isFieldEmpty(fieldRoomTv)
+                if ((Helper.isFieldEmpty(fieldRoomSeasonStock) || Helper.isFieldEmpty(fieldRoomBedCount) || Helper.isFieldEmpty(fieldRoomOffSeasonStock) || Helper.isFieldEmpty(fieldRoomSize) || Helper.isFieldEmpty(fieldRoomTv)
                         || Helper.isFieldEmpty(fieldRoomMinibar))) {
                     Helper.showMessage("fill");
                 } else {
                     int hotel_id = Integer.parseInt(tableHotelHotelList.getValueAt(tableHotelHotelList.getSelectedRow(), 0).toString());
                     int room_type_id = EmployeeOp.getFetchRoomType(comboBoxRoomType.getSelectedItem().toString()).getId();
-                    int stock = Integer.parseInt(fieldRoomStock.getText());
+                    int seasonStock = Integer.parseInt(fieldRoomSeasonStock.getText());
+                    int offSeasonStock = Integer.parseInt(fieldRoomOffSeasonStock.getText());
                     int bed = Integer.parseInt(fieldRoomBedCount.getText());
                     int size = Integer.parseInt(fieldRoomSize.getText());
                     int tv = Integer.parseInt(fieldRoomTv.getText());
                     int minibar = Integer.parseInt(fieldRoomMinibar.getText());
 
-                    if (EmployeeOp.updateRoomDetails(hotel_id, room_type_id, stock, bed, size, tv, minibar)) {
+
+
+                    if (EmployeeOp.updateRoomDetails(hotel_id, room_type_id, seasonStock, offSeasonStock, bed, size, tv, minibar)) {
                         Helper.showMessage("done");
+                        loadSalesRoomModel();
                     }
+
                     scrollPaneHotelDetails.getVerticalScrollBar().setValue(0);
 
                 }
@@ -873,10 +901,10 @@ public class EmployeeGUI extends JFrame {
                 String size = String.valueOf(EmployeeOp.getGuestRoomDetailsByHotelId(hotelId, roomTypeId).getRoomSize());
                 String tv = String.valueOf(EmployeeOp.getGuestRoomDetailsByHotelId(hotelId, roomTypeId).getTv());
                 String minibar = String.valueOf(EmployeeOp.getGuestRoomDetailsByHotelId(hotelId, roomTypeId).getMinibar());
-                labelGuestBed.setText("Number of Beds : " + bed);
-                labelGuestMinibar.setText("Number of Minibars : " + minibar);
-                labelGuestTv.setText("Number of TVs : " + tv);
-                labelGuestRoomSize.setText("Room Size : " + size + " m²");
+                labelGuestBed.setText("Number of Beds: " + bed);
+                labelGuestMinibar.setText("Number of Minibars: " + minibar);
+                labelGuestTv.setText("Number of TVs: " + tv);
+                labelGuestRoomSize.setText("Room Size: " + size + " mÂ²");
                 int adultNumber = Integer.parseInt(fieldSearchAdult.getText().toString());
                 int childNumber = Integer.parseInt(fieldSearchChild.getText().toString());
                 int totalGuestNumber = childNumber + adultNumber;
@@ -978,107 +1006,7 @@ public class EmployeeGUI extends JFrame {
                     if (EmployeeOp.addReservationDetails(hotelId, city, totalGuestNumber, checkinDate, checkoutDate, duration, totalPrice)) {
                         Helper.showMessage("done");
                         loadResModel();
-
                     }
-
-                }
-
-//                panelGuestInfo.setLayout(new GridLayout(0,6));
-//                Map<String, JTextField> textFieldsMap = new HashMap<>();
-//
-//                for(int i =1 ; i<=adultNumber ; i++){
-//                    String fieldName = "a"+i;
-//                    JTextField t1=new JTextField();
-//
-//                    JComboBox<String> cmbbox = new JComboBox<>();
-//
-//                    String[] isoCountries = Locale.getISOCountries();
-//                    Arrays.sort(isoCountries); // ISO kodları alfabetik olarak sıralanıyor
-//
-//                    for (String countryCode : isoCountries) {
-//                        cmbbox.addItem(countryCode); // ISO kodlarını JComboBox'e ekliyoruz
-//                    }
-//
-//
-//                    JTextField t2=new JTextField();
-//                    JTextField t3=new JTextField();
-//                    JTextField t4=new JTextField();
-//
-//                    t1.setName(fieldName + "_t1");
-//                    textFieldsMap.put(fieldName + "_t1", t1);
-//
-//                    cmbbox.setName(fieldName + "_cmbbox");
-//                    t2.setName(fieldName + "_t2");
-//                    t3.setName(fieldName + "_t3");
-//                    t4.setName(fieldName + "_t4");
-//
-//                    panelGuestInfo.add(new JLabel(i + ". Adult"));
-//
-//                    panelGuestInfo.add(t1);
-//                    panelGuestInfo.add(cmbbox);
-//                    panelGuestInfo.add(t2);
-//                    panelGuestInfo.add(t3);
-//                    panelGuestInfo.add(t4);
-//                    panelGuestInfo.repaint();
-//                    panelGuestInfo.revalidate();
-//                }
-//                for(int i =1 ; i<=childNumber ; i++){
-//                    String fieldName = "c"+i;
-//                    JTextField t1=new JTextField();
-//                    JComboBox<String> cmbbox = new JComboBox<>();
-//
-//                    String[] isoCountries = Locale.getISOCountries();
-//                    Arrays.sort(isoCountries); // ISO kodları alfabetik olarak sıralanıyor
-//
-//                    for (String countryCode : isoCountries) {
-//                        cmbbox.addItem(countryCode); // ISO kodlarını JComboBox'e ekliyoruz
-//                    }
-//
-//
-//                    JTextField t2=new JTextField();
-//                    JTextField t3=new JTextField();
-//                    JTextField t4=new JTextField();
-//
-//
-//                    t1.setName(fieldName + "_t1");
-//
-//                    cmbbox.setName(fieldName + "_cmbbox");
-//                    t2.setName(fieldName + "_t2");
-//                    t3.setName(fieldName + "_t3");
-//                    t4.setName(fieldName + "_t4");
-//
-//
-//                    panelGuestInfo.add(new JLabel(i + ". Child"));
-//
-//                    panelGuestInfo.add(t1);
-//                    panelGuestInfo.add(cmbbox);
-//                    panelGuestInfo.add(t2);
-//                    panelGuestInfo.add(t3);
-//                    panelGuestInfo.add(t4);
-//                    t3.setVisible(false);
-//                    t4.setVisible(false);
-//
-//                }
-            }
-
-
-        });
-        buttonSearchSearch.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Helper.isFieldEmpty(fieldSearchHotelCityDistrict) || Helper.isFieldEmpty(fieldSearchCheckin) || Helper.isFieldEmpty(fieldSearchCheckout)) {
-                    Helper.showMessage("fill");
-                } else {
-
-                    String input = fieldSearchHotelCityDistrict.getText();
-                    String star = fieldSearchStar.getText();
-                    Date checkIn = Helper.stringToDate(fieldSearchCheckin.getText());
-                    Date checkOut = Helper.stringToDate(fieldSearchCheckout.getText());
-
-
-                    String query = EmployeeOp.searchRoomSalesQuery(input, star, checkIn, checkOut);
-                    ArrayList<RoomSales> searchRoomSales = EmployeeOp.searchRoomSalesList(query);
-                    loadSalesRoomModel(searchRoomSales);
                 }
             }
         });
@@ -1100,14 +1028,151 @@ public class EmployeeGUI extends JFrame {
         buttonComplete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int lastRow = tableLogResReservationList.getRowCount() - 1;
+                tableLogResReservationList.setRowSelectionInterval(lastRow, lastRow);
                 int adultNumber = Integer.parseInt(fieldSearchAdult.getText().toString());
                 int childNumber = Integer.parseInt(fieldSearchChild.getText().toString());
-                switch (adultNumber + childNumber) {
-                    case 1:
-                        fieldGuestId1.getText();
+                int total = adultNumber + childNumber;
+                int reservationId = Integer.parseInt(tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 0).toString());
+                String guestName1, guestName2, guestName3, guestName4, guestName5, guestName6, guestName7, guestName8, guestName9, guestName10;
+                String guestId1, guestId2, guestId3, guestId4, guestId5, guestId6, guestId7, guestId8, guestId9, guestId10;
+                String guestPhone1, guestPhone2, guestPhone3, guestPhone4, guestPhone5, guestPhone6, guestPhone7, guestPhone8, guestPhone9, guestPhone10;
+                String guestMail1, guestMail2, guestMail3, guestMail4, guestMail5, guestMail6, guestMail7, guestMail8, guestMail9, guestMail10;
+                String guestNat1, guestNat2, guestNat3, guestNat4, guestNat5, guestNat6, guestNat7, guestNat8, guestNat9, guestNat10;
+                String guestType1, guestType2, guestType3, guestType4, guestType5, guestType6, guestType7, guestType8, guestType9, guestType10;
+
+                if(total >= 1){
+                    guestName1 = fieldGuestName1.getText();
+                    guestId1 = fieldGuestId1.getText();
+                    guestPhone1 = fieldGuestPhone1.getText();
+                    guestMail1 = fieldGuestMail1.getText();
+                    guestNat1 = comboBoxGuestNat1.getSelectedItem().toString();
+                    guestType1 = comboBoxGuestType1.getSelectedItem().toString();
+                    if (EmployeeOp.addGuestDetails(reservationId, guestName1, guestId1, guestPhone1, guestMail1)) {
+                        Helper.showMessage("done");
+                        loadGuestModel();
+                    }
+
+                    if(total >= 2){
+                        guestName2 = fieldGuestName2.getText();
+                        guestId2 = fieldGuestId2.getText();
+                        guestPhone2 = fieldGuestPhone2.getText();
+                        guestMail2 = fieldGuestMail2.getText();
+                        guestNat2 = comboBoxGuestNat2.getSelectedItem().toString();
+                        guestType2 = comboBoxGuestType2.getSelectedItem().toString();
+                        if (EmployeeOp.addGuestDetails(reservationId, guestName2, guestId2, guestPhone2, guestMail2)) {
+                            Helper.showMessage("done");
+                            loadGuestModel();
+                        }
+
+                        if (total >= 3) {
+                            guestName3 = fieldGuestName3.getText();
+                            guestId3 = fieldGuestId3.getText();
+                            guestPhone3 = fieldGuestPhone3.getText();
+                            guestMail3 = fieldGuestMail3.getText();
+                            guestNat3 = comboBoxGuestNat3.getSelectedItem().toString();
+                            guestType3 = comboBoxGuestType3.getSelectedItem().toString();
+                            if (EmployeeOp.addGuestDetails(reservationId, guestName3, guestId3, guestPhone3, guestMail3)) {
+                                Helper.showMessage("done");
+                                loadGuestModel();
+                            }
+
+                            if (total >= 4) {
+                                guestName4 = fieldGuestName4.getText();
+                                guestId4 = fieldGuestId4.getText();
+                                guestPhone4 = fieldGuestPhone4.getText();
+                                guestMail4 = fieldGuestMail4.getText();
+                                guestNat4 = comboBoxGuestNat4.getSelectedItem().toString();
+                                guestType4 = comboBoxGuestType4.getSelectedItem().toString();
+                                if (EmployeeOp.addGuestDetails(reservationId, guestName4, guestId4, guestPhone4, guestMail4)) {
+                                    Helper.showMessage("done");
+                                    loadGuestModel();
+                                }
+
+                                if (total >= 5) {
+                                    guestName5 = fieldGuestName5.getText();
+                                    guestId5 = fieldGuestId5.getText();
+                                    guestPhone5 = fieldGuestPhone5.getText();
+                                    guestMail5 = fieldGuestMail5.getText();
+                                    guestNat5 = comboBoxGuestNat5.getSelectedItem().toString();
+                                    guestType5 = comboBoxGuestType5.getSelectedItem().toString();
+                                    if (EmployeeOp.addGuestDetails(reservationId, guestName5, guestId5, guestPhone5, guestMail5)) {
+                                        Helper.showMessage("done");
+                                        loadGuestModel();
+                                    }
+
+                                    if (total >= 6) {
+                                        guestName6 = fieldGuestName6.getText();
+                                        guestId6 = fieldGuestId6.getText();
+                                        guestPhone6 = fieldGuestPhone6.getText();
+                                        guestMail6 = fieldGuestMail6.getText();
+                                        guestNat6 = comboBoxGuestNat6.getSelectedItem().toString();
+                                        guestType6 = comboBoxGuestType6.getSelectedItem().toString();
+                                        if (EmployeeOp.addGuestDetails(reservationId, guestName6, guestId6, guestPhone6, guestMail6)) {
+                                            Helper.showMessage("done");
+                                            loadGuestModel();
+                                        }
+
+                                        if (total >= 7) {
+                                            guestName7 = fieldGuestName7.getText();
+                                            guestId7 = fieldGuestId7.getText();
+                                            guestPhone7 = fieldGuestPhone7.getText();
+                                            guestMail7 = fieldGuestMail7.getText();
+                                            guestNat7 = comboBoxGuestNat7.getSelectedItem().toString();
+                                            guestType7 = comboBoxGuestType7.getSelectedItem().toString();
+                                            if (EmployeeOp.addGuestDetails(reservationId, guestName7, guestId7, guestPhone7, guestMail7)) {
+                                                Helper.showMessage("done");
+                                                loadGuestModel();
+                                            }
+
+                                            if (total >= 8) {
+                                                guestName8 = fieldGuestName8.getText();
+                                                guestId8 = fieldGuestId8.getText();
+                                                guestPhone8 = fieldGuestPhone8.getText();
+                                                guestMail8 = fieldGuestMail8.getText();
+                                                guestNat8 = comboBoxGuestNat8.getSelectedItem().toString();
+                                                guestType8 = comboBoxGuestType8.getSelectedItem().toString();
+                                                if (EmployeeOp.addGuestDetails(reservationId, guestName8, guestId8, guestPhone8, guestMail8)) {
+                                                    Helper.showMessage("done");
+                                                    loadGuestModel();
+                                                }
+
+                                                if (total >= 9) {
+                                                    guestName9 = fieldGuestName9.getText();
+                                                    guestId9 = fieldGuestId9.getText();
+                                                    guestPhone9 = fieldGuestPhone9.getText();
+                                                    guestMail9 = fieldGuestMail9.getText();
+                                                    guestNat9 = comboBoxGuestNat9.getSelectedItem().toString();
+                                                    guestType9 = comboBoxGuestType9.getSelectedItem().toString();
+                                                    if (EmployeeOp.addGuestDetails(reservationId, guestName9, guestId9, guestPhone9, guestMail9)) {
+                                                        Helper.showMessage("done");
+                                                        loadGuestModel();
+                                                    }
+
+                                                    if (total >= 10) {
+                                                        guestName10 = fieldGuestName10.getText();
+                                                        guestId10 = fieldGuestId10.getText();
+                                                        guestPhone10 = fieldGuestPhone10.getText();
+                                                        guestMail10 = fieldGuestMail10.getText();
+                                                        guestNat10 = comboBoxGuestNat10.getSelectedItem().toString();
+                                                        guestType10 = comboBoxGuestType10.getSelectedItem().toString();
+                                                        if (EmployeeOp.addGuestDetails(reservationId, guestName10, guestId10, guestPhone10, guestMail10)) {
+                                                            Helper.showMessage("done");
+                                                            loadGuestModel();
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         });
+
     }
 
     public void loadAccoCombo() {
@@ -1238,7 +1303,7 @@ public class EmployeeGUI extends JFrame {
             fieldRoomSize.setText(String.valueOf(obj.getRoomSize()));
             fieldRoomTv.setText(String.valueOf(obj.getTv()));
             fieldRoomMinibar.setText(String.valueOf(obj.getMinibar()));
-            fieldRoomStock.setText(String.valueOf(obj.getStock()));
+            fieldRoomSeasonStock.setText(String.valueOf(obj.getSeasonStock()));
         }
     }
 
@@ -1278,6 +1343,11 @@ public class EmployeeGUI extends JFrame {
             rowSearchHotelList[i++] = obj.getRoomType();
 
             if (obj.getStock() != 0) {
+//                if(obj.getPeriod().equals("Season")){
+//                    rowSearchHotelList[i++] = obj.getSeasonStock();
+//                }else if(obj.getPeriod().equals("Off Season")){
+//                    rowSearchHotelList[i++] = obj.getOffSeasonStock();
+//                }
                 rowSearchHotelList[i++] = obj.getStock();
                 modelSearchHotelList.addRow(rowSearchHotelList);
             }
@@ -1311,7 +1381,7 @@ public class EmployeeGUI extends JFrame {
     }
 
     public void loadResModel() {
-        DefaultTableModel clearModel = (DefaultTableModel) tableHotelHotelList.getModel();
+        DefaultTableModel clearModel = (DefaultTableModel) tableLogResReservationList.getModel();
         clearModel.setRowCount(0);
         int i;
 
@@ -1329,6 +1399,24 @@ public class EmployeeGUI extends JFrame {
             modelLogResReservationList.addRow(rowLogResReservationList);
         }
 
+    }
+    public void loadGuestModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) tableLogGuestGuestList.getModel();
+        clearModel.setRowCount(0);
+        int i;
+
+        for (Guest obj : EmployeeOp.getGuestList()) {
+            i = 0;
+
+            rowLogGuestGuestList[i++] = obj.getId();
+            rowLogGuestGuestList[i++] = obj.getReservationId();
+            rowLogGuestGuestList[i++] = obj.getFullName();
+            rowLogGuestGuestList[i++] = obj.getNationalId();
+            rowLogGuestGuestList[i++] = obj.getPhone();
+            rowLogGuestGuestList[i++] = obj.getEmail();
+
+            modelLogGuestGuestList.addRow(rowLogGuestGuestList);
+        }
     }
 
     public int getPrice() {

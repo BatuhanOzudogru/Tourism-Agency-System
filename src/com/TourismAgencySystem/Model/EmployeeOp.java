@@ -143,6 +143,29 @@ public class EmployeeOp {
         }
         return resList;
     }
+    public static ArrayList<Guest> getGuestList() {
+        ArrayList<Guest> guestList = new ArrayList<>();
+        String query = "SELECT * FROM guest";
+        Guest obj;
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                obj = new Guest();
+                obj.setId(rs.getInt("id"));
+                obj.setReservationId(rs.getInt("reservation_id"));
+                obj.setFullName(rs.getString("guest_fullname"));
+                obj.setNationalId(rs.getString("id_num"));
+                obj.setPhone(rs.getString("guest_phone"));
+                obj.setEmail(rs.getString("guest_email"));
+
+                guestList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return guestList;
+    }
 
     public static boolean addHotelDetails(String name, String city, String district, String star, String address, String hotel_email, String hotel_phone,
                                           String parking, String wifi, String pool, String gym, String concierge, String spa, String room_service) {
@@ -176,18 +199,19 @@ public class EmployeeOp {
         return true;
     }
 
-    public static boolean addRoomDetails(int hotel_id, int room_type_id, int stock, int bed, int room_size, int tv, int minibar) {
-        String query = "INSERT INTO room (hotel_id, room_type_id,stock,bed,room_size,tv,minibar) VALUES (?,?,?,?,?,?,?)";
+    public static boolean addRoomDetails(int hotel_id, int room_type_id, int seasonStock,int offSeasonStock, int bed, int room_size, int tv, int minibar) {
+        String query = "INSERT INTO room (hotel_id, room_type_id,season_stock,offseason_stock,bed,room_size,tv,minibar) VALUES (?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
             pr.setInt(1, hotel_id);
             pr.setInt(2, room_type_id);
-            pr.setInt(3, stock);
-            pr.setInt(4, bed);
-            pr.setInt(5, room_size);
-            pr.setInt(6, tv);
-            pr.setInt(7, minibar);
+            pr.setInt(3, seasonStock);
+            pr.setInt(4, offSeasonStock);
+            pr.setInt(5, bed);
+            pr.setInt(6, room_size);
+            pr.setInt(7, tv);
+            pr.setInt(8, minibar);
 
             int response = pr.executeUpdate();
             if (response == -1) {
@@ -478,6 +502,29 @@ public class EmployeeOp {
         return true;
     }
 
+    public static boolean addGuestDetails(int reservationId, String fullName, String nationalityId, String phone, String email) {
+        String query = "INSERT INTO guest (reservation_id, guest_fullname, id_num, guest_phone, guest_email) VALUES (?,?,?,?,?)";
+
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, reservationId);
+            pr.setString(2, fullName);
+            pr.setString(3, nationalityId);
+            pr.setString(4, phone);
+            pr.setString(5, email);
+
+
+            int response = pr.executeUpdate();
+            if (response == -1) {
+                Helper.showMessage("error");
+            }
+            return response != -1;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
     public static boolean updateHotelDetails(int id, String name, String city, String district, String star, String address, String hotel_email, String hotel_phone,
                                              String parking, String wifi, String pool, String gym, String concierge, String spa, String room_service) {
         String query = "UPDATE hotel SET hotel_name=?,city=?,district=?,star=?,address=?,hotel_email=?,hotel_phone=?,parking=?,wifi=?,pool=?,gym=?,concierge=?,spa=?,room_service=? WHERE id=?";
@@ -507,18 +554,19 @@ public class EmployeeOp {
         return true;
     }
 
-    public static boolean updateRoomDetails(int hotel_id, int room_type_id, int stock, int bed, int size, int tv, int minibar) {
-        String query = "UPDATE room SET stock=?,bed=?,room_size=?,tv=?,minibar=? WHERE hotel_id=? AND room_type_id=?";
+    public static boolean updateRoomDetails(int hotel_id, int room_type_id, int seasonStock,int offSeasonStock, int bed, int size, int tv, int minibar) {
+        String query = "UPDATE room SET season_stock=?,offseason_stock=?,bed=?,room_size=?,tv=?,minibar=? WHERE hotel_id=? AND room_type_id=?";
 
         try {
             PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
-            ps.setInt(1, stock);
-            ps.setInt(2, bed);
-            ps.setInt(3, size);
-            ps.setInt(4, tv);
-            ps.setInt(5, minibar);
-            ps.setInt(6, hotel_id);
-            ps.setInt(7, room_type_id);
+            ps.setInt(1, seasonStock);
+            ps.setInt(2, offSeasonStock);
+            ps.setInt(3, bed);
+            ps.setInt(4, size);
+            ps.setInt(5, tv);
+            ps.setInt(6, minibar);
+            ps.setInt(7, hotel_id);
+            ps.setInt(8, room_type_id);
 
             return ps.executeUpdate() != -1;
         } catch (SQLException e) {
@@ -670,9 +718,10 @@ public class EmployeeOp {
                 int tv = rs.getInt("tv");
                 int minibar = rs.getInt("minibar");
                 int room_size = rs.getInt("room_size");
-                int stock = rs.getInt("stock");
+                int seasonStock = rs.getInt("season_stock");
+                int offSeasonStock = rs.getInt("offseason_stock");
 
-                obj = new Room(id, hotel_id, room_type_id, bed, tv, minibar, room_size, stock);
+                obj = new Room(id, hotel_id, room_type_id, bed, tv, minibar, room_size, seasonStock,offSeasonStock);
                 roomDetailsList.add(obj);
             }
 
@@ -680,6 +729,36 @@ public class EmployeeOp {
             e.printStackTrace();
         }
         return roomDetailsList;
+    }
+    public static RoomSales getRoomSalesDetailsByHotelId(int hotelId, String roomTypeName) {
+
+        RoomSales obj=null;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM room_sales WHERE hotel_id = " + hotelId + " AND room_type = " + roomTypeName);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int hotel_id = rs.getInt("hotel_id");
+                String hotelName = rs.getString("hotel_name");
+                String hotelCity = rs.getString("city");
+                String hotelDistrict = rs.getString("district");
+                String hotelStar = rs.getString("star");
+                String hotelPeriod = rs.getString("period");
+                String roomType = rs.getString("room_type");
+                int stock = rs.getInt("stock");
+                Date startDate= rs.getDate("start_date");
+                Date endDate = rs.getDate("end_date");
+
+
+                obj = new RoomSales(id, hotel_id,hotelName,hotelCity,hotelDistrict,hotelStar,hotelPeriod,startDate,endDate,roomType,stock);
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
     public static Room getGuestRoomDetailsByHotelId(int hotelId, int roomTypeId) {
@@ -698,9 +777,10 @@ public class EmployeeOp {
                 int tv = rs.getInt("tv");
                 int minibar = rs.getInt("minibar");
                 int room_size = rs.getInt("room_size");
-                int stock = rs.getInt("stock");
+                int seasonStock = rs.getInt("season_stock");
+                int offSeasonStock = rs.getInt("offseason_stock");
 
-                obj = new Room(id, hotel_id, room_type_id, bed, tv, minibar, room_size, stock);
+                obj = new Room(id, hotel_id, room_type_id, bed, tv, minibar, room_size, seasonStock,offSeasonStock);
 
             }
 
