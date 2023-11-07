@@ -18,6 +18,12 @@ public class RoomPrice {
         this.adultPrice = adultPrice;
         this.childPrice = childPrice;
     }
+    public RoomPrice(int hotelId,int roomTypeId,int accommodationId,int periodId){
+        this.hotelId=hotelId;
+        this.roomTypeId=roomTypeId;
+        this.accommodationId=accommodationId;
+        this.periodId=periodId;
+    }
     public RoomPrice(){
 
     }

@@ -25,6 +25,9 @@ public class Room {
         this.offSeasonStock=offSeasonStock;
 
     }
+    public Room(){
+
+    }
 
     public int getOffSeasonStock() {
         return offSeasonStock;

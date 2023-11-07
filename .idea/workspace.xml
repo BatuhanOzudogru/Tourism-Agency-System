@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee8434ce-7b1f-4d0e-966b-1f16d09af954" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/Reservation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/RoomPrice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/RoomPrice.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +49,8 @@
     "last_opened_file_path": "C:/Users/batuh/OneDrive/Masaüstü/Projeler/PatikaProjeler/Tourism-Agency-System/mysql-connector-j-8.1.0.jar",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -136,5 +136,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
