@@ -131,6 +131,8 @@ public class EmployeeOp {
                 obj.setId(rs.getInt("id"));
                 obj.setHotelId(rs.getInt("hotel_id"));
                 obj.setHotelName(rs.getString("hotel_name"));
+                obj.setRoomType(rs.getString("room_type"));
+                obj.setPeriodName(rs.getString("period_name"));
                 obj.setCity(rs.getString("city"));
                 obj.setGuestCount(rs.getInt("guest_count"));
                 obj.setCheckinDate(rs.getDate("checkin_date"));
@@ -477,19 +479,21 @@ public class EmployeeOp {
         return true;
     }
 
-    public static boolean addReservationDetails(int hotelId,String hotelName, String city, int guestCount, Date checkinDate, Date checkoutDate, int duration, int totalPrice) {
-        String query = "INSERT INTO reservation (hotel_id,hotel_name,city,guest_count,checkin_date,checkout_date,duration,price) VALUES (?,?,?,?,?,?,?,?)";
+    public static boolean addReservationDetails(int hotelId,String hotelName,String roomType,String periodName, String city, int guestCount, Date checkinDate, Date checkoutDate, int duration, int totalPrice) {
+        String query = "INSERT INTO reservation (hotel_id,hotel_name,room_type,period_name,city,guest_count,checkin_date,checkout_date,duration,price) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
             pr.setInt(1, hotelId);
             pr.setString(2, hotelName);
-            pr.setString(3, city);
-            pr.setInt(4, guestCount);
-            pr.setDate(5, (java.sql.Date) checkinDate);
-            pr.setDate(6, (java.sql.Date) checkoutDate);
-            pr.setInt(7, duration);
-            pr.setInt(8, totalPrice);
+            pr.setString(3,roomType);
+            pr.setString(4,periodName);
+            pr.setString(5, city);
+            pr.setInt(6, guestCount);
+            pr.setDate(7, (java.sql.Date) checkinDate);
+            pr.setDate(8, (java.sql.Date) checkoutDate);
+            pr.setInt(9, duration);
+            pr.setInt(10, totalPrice);
 
 
             int response = pr.executeUpdate();
@@ -615,13 +619,29 @@ public class EmployeeOp {
         return true;
     }
 
-    public static boolean updateStock(int id, int stock) {
+    public static boolean decreaseStock(int id, int stock) {
         String query = "UPDATE room_sales SET stock=? WHERE id=?";
 
         try {
             PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
             ps.setInt(1, stock);
             ps.setInt(2, id);
+
+            return ps.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    public static boolean increaseStock(int hotelId,String period,String roomType, int stock) {
+        String query = "UPDATE room_sales SET stock=? WHERE hotel_id=? AND period=? AND room_type=?";
+
+        try {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+            ps.setInt(1, stock);
+            ps.setInt(2,hotelId);
+            ps.setString(3,period);
+            ps.setString(4,roomType);
 
             return ps.executeUpdate() != -1;
         } catch (SQLException e) {
@@ -747,13 +767,13 @@ public class EmployeeOp {
         }
         return roomDetailsList;
     }
-    public static RoomSales getRoomSalesDetailsByHotelId(int hotelId, String roomTypeName) {
+    public static RoomSales getRoomSalesDetailsByHotelId(int hotelId, String roomTypeName,String periodName) {
 
         RoomSales obj=null;
 
         try {
             Statement st = DBConnector.getInstance().createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM room_sales WHERE hotel_id = " + hotelId + " AND room_type = " + roomTypeName);
+            ResultSet rs = st.executeQuery("SELECT * FROM room_sales WHERE hotel_id = " + hotelId + " AND room_type = '" + roomTypeName + "' AND period = '" + periodName+"'");
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int hotel_id = rs.getInt("hotel_id");
