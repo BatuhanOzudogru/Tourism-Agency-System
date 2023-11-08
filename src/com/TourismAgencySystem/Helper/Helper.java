@@ -75,7 +75,7 @@ public class Helper {
                 break;
             default:
                 msg = str;
-                title = "Massage";
+                title = "Error";
         }
         JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
@@ -201,12 +201,24 @@ public class Helper {
 
     public static java.sql.Date stringToDate(String dateString) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         try {
             Date utilDate = dateFormat.parse(dateString);
             return new java.sql.Date(utilDate.getTime());
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    public static boolean isValidDateFormat(String input) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+
+        try {
+            dateFormat.parse(input);
+            return true;
+        } catch (ParseException e) {
+            return false;
         }
     }
 
