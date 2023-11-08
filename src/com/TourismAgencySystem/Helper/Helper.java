@@ -44,6 +44,14 @@ public class Helper {
         return field.getText().trim().isEmpty();
     }
 
+    public static boolean areFieldsEmpty(JTextField... field) {
+        for (JTextField fields : field) {
+
+           return fields.getText().trim().isEmpty();
+
+        }
+        return false;
+    }
     public static boolean isFieldEmpty(JTextArea area) {
         return area.getText().trim().isEmpty();
     }
@@ -151,6 +159,43 @@ public class Helper {
     public static void visibleJLabel(JLabel... JLabels) {
         for (JLabel lbl : JLabels) {
             lbl.setVisible(true);
+        }
+    }
+    public static void resetHideTextFields(JTextField... dateFields) {
+        for (JTextField field : dateFields) {
+            field.setText(null);
+            field.setEnabled(false);
+            field.setEditable(false);
+            field.setVisible(false);
+        }
+    }
+
+    public static void resetHideComboBoxes(JComboBox... comboBoxes) {
+        for (JComboBox box : comboBoxes) {
+            box.setSelectedIndex(0);
+            box.setEnabled(false);
+            box.setVisible(false);
+        }
+    }
+
+    public static void showTextFields(JTextField... dateFields) {
+        for (JTextField field : dateFields) {
+            field.setEnabled(true);
+            field.setEditable(true);
+            field.setVisible(true);
+        }
+    }
+
+    public static void showComboBoxes(JComboBox... comboBoxes) {
+        for (JComboBox box : comboBoxes) {
+            box.setEnabled(true);
+            box.setVisible(true);
+        }
+    }
+
+    public static void hiddenJLabel(JLabel... labels) {
+        for (JLabel lbl : labels) {
+            lbl.setVisible(false);
         }
     }
 

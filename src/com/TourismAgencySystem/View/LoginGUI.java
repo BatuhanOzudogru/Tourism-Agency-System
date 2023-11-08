@@ -18,8 +18,9 @@ public class LoginGUI extends JFrame {
     private JPanel wtop;
     private JPanel wbottom;
     private JTextField fieldUsername;
-    private JTextField fieldPassword;
+    private JPasswordField fieldPassword;
     private JButton buttonLogin;
+    private JCheckBox checkBoxShowPass;
 
     public LoginGUI() {
         add(wrapper);
@@ -84,6 +85,8 @@ public class LoginGUI extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
+
+
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (Helper.isFieldEmpty(fieldUsername) || Helper.isFieldEmpty(fieldPassword)) {
                         Helper.showMessage("fill");
@@ -109,6 +112,16 @@ public class LoginGUI extends JFrame {
             }
         });
 
+        checkBoxShowPass.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (checkBoxShowPass.isSelected()) {
+                    fieldPassword.setEchoChar((char) 0);
+                } else {
+                    fieldPassword.setEchoChar('*');
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {

@@ -687,7 +687,7 @@ public class EmployeeOp {
     }
 
     public static boolean updateRoomSales( int hotel_id, String periodName,int stock,String roomType) {
-        String query = "UPDATE room_sales SET stock=? WHERE hotel_id=? AND period=? AND room_type";
+        String query = "UPDATE room_sales SET stock=? WHERE hotel_id=? AND period=? AND room_type=?";
 
         try {
             PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
@@ -1059,11 +1059,11 @@ public class EmployeeOp {
             }
 
             if (checkIn != null) {
-                query += " AND start_date = '" + checkIn + "'";
+                query += " AND start_date <= '" + checkIn + "'";
             }
 
             if (checkOut != null) {
-                query += " AND end_date = '" + checkOut + "'";
+                query += " AND end_date >= '" + checkOut + "'";
             }
         }
         return query;

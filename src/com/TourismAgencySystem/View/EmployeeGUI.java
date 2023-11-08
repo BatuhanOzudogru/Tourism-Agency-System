@@ -480,10 +480,10 @@ public class EmployeeGUI extends JFrame {
                     Date offSeasonStart = Helper.stringToDate(fieldOffSeasonStartDate.getText());
                     Date offSeasonEnd = Helper.stringToDate(fieldOffSeasonEndDate.getText());
 
-                    EmployeeOp.checkHotelList(name,city,district);
-                    if(EmployeeOp.checkHotelList(name,city,district)!=null){
+                    EmployeeOp.checkHotelList(name, city, district);
+                    if (EmployeeOp.checkHotelList(name, city, district) != null) {
                         Helper.showMessage("This hotel exists. Please change the hotel name or the city or the district.");
-                    }else if (EmployeeOp.addHotelDetails(name, city, district, star, address, mail, phone, parking, wifi, pool, gym, concierge, spa, roomService)
+                    } else if (EmployeeOp.addHotelDetails(name, city, district, star, address, mail, phone, parking, wifi, pool, gym, concierge, spa, roomService)
                             && EmployeeOp.addHotelPeriodDetails(seasonStart, seasonEnd, offSeasonStart, offSeasonEnd)) {
                         Helper.showMessage("done");
                         loadHotelModel();
@@ -654,42 +654,42 @@ public class EmployeeGUI extends JFrame {
 
                     String roomType = comboBoxRoomType.getSelectedItem().toString();
 
-                    boolean showDoneMsg=true;
-                    boolean showExistsAlert=true;
+                    boolean showDoneMsg = true;
+                    boolean showExistsAlert = true;
 
 
                     if (radioButtonSeason.isSelected()) {
                         periodName = "Season";
                         periodStart = EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonStart();
                         periodEnd = EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getSeasonEnd();
-                        if(EmployeeOp.checkRoomTypeList(hotel_id,roomType,periodName)!=null){
-                            if(showExistsAlert){
+                        if (EmployeeOp.checkRoomTypeList(hotel_id, roomType, periodName) != null) {
+                            if (showExistsAlert) {
                                 Helper.showMessage("This room exists. Either add a new room or continue with the update button");
-                                showExistsAlert=false;
+                                showExistsAlert = false;
                             }
 
-                        }else if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, seasonStock)) {
+                        } else if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, seasonStock)) {
 
-                                if (EmployeeOp.addRoomDetails(hotel_id, room_type_id, seasonStock, offSeasonStock, bed, size, tv, minibar)) {
-                                   if(showDoneMsg){
-                                       Helper.showMessage("done");
-                                       showDoneMsg=false;
-                                   }
-
+                            if (EmployeeOp.addRoomDetails(hotel_id, room_type_id, seasonStock, offSeasonStock, bed, size, tv, minibar)) {
+                                if (showDoneMsg) {
+                                    Helper.showMessage("done");
+                                    showDoneMsg = false;
                                 }
+
+                            }
                         }
                     }
                     if (radioButtonOffSeason.isSelected()) {
                         periodName = "Off Season";
                         periodStart = EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
                         periodEnd = EmployeeOp.getHotelPeriodDateByHotelId(hotel_id).getOffSeasonStart();
-                        if(EmployeeOp.checkRoomTypeList(hotel_id,roomType,periodName)!=null) {
-                            if(showExistsAlert){
+                        if (EmployeeOp.checkRoomTypeList(hotel_id, roomType, periodName) != null) {
+                            if (showExistsAlert) {
                                 Helper.showMessage("This room exists. Either add a new room or continue with the update button");
                             }
-                        }else if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, offSeasonStock)) {
+                        } else if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, offSeasonStock)) {
                             if (EmployeeOp.addRoomDetails(hotel_id, room_type_id, seasonStock, offSeasonStock, bed, size, tv, minibar)) {
-                                if(showDoneMsg){
+                                if (showDoneMsg) {
                                     Helper.showMessage("done");
 
                                 }
@@ -719,12 +719,12 @@ public class EmployeeGUI extends JFrame {
                     int size = Integer.parseInt(fieldRoomSize.getText());
                     int tv = Integer.parseInt(fieldRoomTv.getText());
                     int minibar = Integer.parseInt(fieldRoomMinibar.getText());
-                    String roomTypeName =comboBoxRoomType.getSelectedItem().toString();
+                    String roomTypeName = comboBoxRoomType.getSelectedItem().toString();
 
 
-                    EmployeeOp.updateRoomSales(hotel_id,"Season",seasonStock,roomTypeName);
-                    EmployeeOp.updateRoomSales(hotel_id,"Off Season",offSeasonStock,roomTypeName);
-                    if (EmployeeOp.updateRoomDetails(hotel_id, room_type_id, seasonStock, offSeasonStock, bed, size, tv, minibar)){
+                    EmployeeOp.updateRoomSales(hotel_id, "Season", seasonStock, roomTypeName);
+                    EmployeeOp.updateRoomSales(hotel_id, "Off Season", offSeasonStock, roomTypeName);
+                    if (EmployeeOp.updateRoomDetails(hotel_id, room_type_id, seasonStock, offSeasonStock, bed, size, tv, minibar)) {
                         Helper.showMessage("done");
                         loadSalesRoomModel();
                     }
@@ -747,9 +747,9 @@ public class EmployeeGUI extends JFrame {
                     int adult_price = Integer.parseInt(fieldAdultPriceSingle.getText());
                     int child_price = Integer.parseInt(fieldChildPriceSingle.getText());
 
-                    if(EmployeeOp.checkRoomPrice(hotel_id,room_type_id,acco_id,period_id)!=null){
+                    if (EmployeeOp.checkRoomPrice(hotel_id, room_type_id, acco_id, period_id) != null) {
                         Helper.showMessage("This room has been added before. Please choose another season or accommodation type.");
-                    }else {
+                    } else {
                         if (EmployeeOp.addPriceDetails(hotel_id, period_id, room_type_id, acco_id, adult_price, child_price)) {
                             Helper.showMessage("done");
                             loadPriceRoomModel();
@@ -803,9 +803,9 @@ public class EmployeeGUI extends JFrame {
                     int adult_price = Integer.parseInt(fieldAdultPriceDouble.getText());
                     int child_price = Integer.parseInt(fieldChildPriceDouble.getText());
 
-                    if(EmployeeOp.checkRoomPrice(hotel_id,room_type_id,acco_id,period_id)!=null){
+                    if (EmployeeOp.checkRoomPrice(hotel_id, room_type_id, acco_id, period_id) != null) {
                         Helper.showMessage("This room has been added before. Please choose another season or accommodation type.");
-                    }else {
+                    } else {
                         if (EmployeeOp.addPriceDetails(hotel_id, period_id, room_type_id, acco_id, adult_price, child_price)) {
                             Helper.showMessage("done");
                             loadPriceRoomModel();
@@ -834,9 +834,9 @@ public class EmployeeGUI extends JFrame {
                     int adult_price = Integer.parseInt(fieldAdultPriceKingSuite.getText());
                     int child_price = Integer.parseInt(fieldChildPriceKingSuite.getText());
 
-                    if(EmployeeOp.checkRoomPrice(hotel_id,room_type_id,acco_id,period_id)!=null){
+                    if (EmployeeOp.checkRoomPrice(hotel_id, room_type_id, acco_id, period_id) != null) {
                         Helper.showMessage("This room has been added before. Please choose another season or accommodation type.");
-                    }else {
+                    } else {
                         if (EmployeeOp.addPriceDetails(hotel_id, period_id, room_type_id, acco_id, adult_price, child_price)) {
                             Helper.showMessage("done");
                             loadPriceRoomModel();
@@ -992,100 +992,67 @@ public class EmployeeGUI extends JFrame {
                 int adultNumber = Integer.parseInt(fieldSearchAdult.getText().toString());
                 int childNumber = Integer.parseInt(fieldSearchChild.getText().toString());
                 int totalGuestNumber = childNumber + adultNumber;
-                switch (totalGuestNumber) {
-                    case 1:
-                        Helper.visibleComboBoxes(comboBoxGuestNat1, comboBoxGuestType1);
-                        Helper.visibleJLabel(labelGuest1);
-                        Helper.visibleTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1);
-                        break;
-                    case 2:
-                        Helper.visibleComboBoxes(comboBoxGuestNat1, comboBoxGuestType1, comboBoxGuestNat2, comboBoxGuestType2);
-                        Helper.visibleJLabel(labelGuest1, labelGuest2);
-                        Helper.visibleTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1, fieldGuestPhone2, fieldGuestId2, fieldGuestMail2, fieldGuestName2);
-                        break;
-                    case 3:
-                        Helper.visibleComboBoxes(comboBoxGuestNat1, comboBoxGuestType1, comboBoxGuestNat2, comboBoxGuestType2, comboBoxGuestNat3, comboBoxGuestType3);
-                        Helper.visibleJLabel(labelGuest1, labelGuest2, labelGuest3);
-                        Helper.visibleTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1, fieldGuestPhone2, fieldGuestId2, fieldGuestMail2, fieldGuestName2,
-                                fieldGuestPhone3, fieldGuestId3, fieldGuestMail3, fieldGuestName3);
-                        break;
-                    case 4:
-                        Helper.visibleComboBoxes(comboBoxGuestNat1, comboBoxGuestType1, comboBoxGuestNat2, comboBoxGuestType2, comboBoxGuestNat3, comboBoxGuestType3,
-                                comboBoxGuestNat4, comboBoxGuestType4);
-                        Helper.visibleJLabel(labelGuest1, labelGuest2, labelGuest3, labelGuest4);
-                        Helper.visibleTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1, fieldGuestPhone2, fieldGuestId2, fieldGuestMail2, fieldGuestName2,
-                                fieldGuestPhone3, fieldGuestId3, fieldGuestMail3, fieldGuestName3, fieldGuestPhone4, fieldGuestId4, fieldGuestMail4, fieldGuestName4);
-                        break;
-                    case 5:
-                        Helper.visibleComboBoxes(comboBoxGuestNat1, comboBoxGuestType1, comboBoxGuestNat2, comboBoxGuestType2, comboBoxGuestNat3, comboBoxGuestType3,
-                                comboBoxGuestNat4, comboBoxGuestType4, comboBoxGuestNat5, comboBoxGuestType5);
-                        Helper.visibleJLabel(labelGuest1, labelGuest2, labelGuest3, labelGuest4, labelGuest5);
-                        Helper.visibleTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1, fieldGuestPhone2, fieldGuestId2, fieldGuestMail2, fieldGuestName2,
-                                fieldGuestPhone3, fieldGuestId3, fieldGuestMail3, fieldGuestName3, fieldGuestPhone4, fieldGuestId4, fieldGuestMail4, fieldGuestName4,
-                                fieldGuestPhone5, fieldGuestId5, fieldGuestMail5, fieldGuestName5);
-                        break;
-                    case 6:
-                        Helper.visibleComboBoxes(comboBoxGuestNat1, comboBoxGuestType1, comboBoxGuestNat2, comboBoxGuestType2, comboBoxGuestNat3, comboBoxGuestType3, comboBoxGuestNat4, comboBoxGuestType4, comboBoxGuestNat5, comboBoxGuestType5,
-                                comboBoxGuestNat6, comboBoxGuestType6);
-                        Helper.visibleJLabel(labelGuest1, labelGuest2, labelGuest3, labelGuest4, labelGuest5, labelGuest6);
-                        Helper.visibleTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1, fieldGuestPhone2, fieldGuestId2, fieldGuestMail2, fieldGuestName2,
-                                fieldGuestPhone3, fieldGuestId3, fieldGuestMail3, fieldGuestName3, fieldGuestPhone4, fieldGuestId4, fieldGuestMail4, fieldGuestName4,
-                                fieldGuestPhone5, fieldGuestId5, fieldGuestMail5, fieldGuestName5, fieldGuestPhone6, fieldGuestId6, fieldGuestMail6, fieldGuestName6);
-                        break;
-                    case 7:
-                        Helper.visibleComboBoxes(comboBoxGuestNat1, comboBoxGuestType1, comboBoxGuestNat2, comboBoxGuestType2, comboBoxGuestNat3, comboBoxGuestType3, comboBoxGuestNat4, comboBoxGuestType4, comboBoxGuestNat5, comboBoxGuestType5,
-                                comboBoxGuestNat6, comboBoxGuestType6, comboBoxGuestNat7, comboBoxGuestType7);
-                        Helper.visibleJLabel(labelGuest1, labelGuest2, labelGuest3, labelGuest4, labelGuest5,
-                                labelGuest6, labelGuest7);
-                        Helper.visibleTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1, fieldGuestPhone2, fieldGuestId2, fieldGuestMail2, fieldGuestName2,
-                                fieldGuestPhone3, fieldGuestId3, fieldGuestMail3, fieldGuestName3, fieldGuestPhone4, fieldGuestId4, fieldGuestMail4, fieldGuestName4,
-                                fieldGuestPhone5, fieldGuestId5, fieldGuestMail5, fieldGuestName5, fieldGuestPhone6, fieldGuestId6, fieldGuestMail6, fieldGuestName6,
-                                fieldGuestPhone7, fieldGuestId7, fieldGuestMail7, fieldGuestName7);
-                        break;
-                    case 8:
-                        Helper.visibleComboBoxes(comboBoxGuestNat1, comboBoxGuestType1, comboBoxGuestNat2, comboBoxGuestType2, comboBoxGuestNat3, comboBoxGuestType3, comboBoxGuestNat4, comboBoxGuestType4, comboBoxGuestNat5, comboBoxGuestType5,
-                                comboBoxGuestNat6, comboBoxGuestType6, comboBoxGuestNat7, comboBoxGuestType7, comboBoxGuestNat8, comboBoxGuestType8);
-                        Helper.visibleJLabel(labelGuest1, labelGuest2, labelGuest3, labelGuest4, labelGuest5,
-                                labelGuest6, labelGuest7, labelGuest8);
-                        Helper.visibleTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1, fieldGuestPhone2, fieldGuestId2, fieldGuestMail2, fieldGuestName2,
-                                fieldGuestPhone3, fieldGuestId3, fieldGuestMail3, fieldGuestName3, fieldGuestPhone4, fieldGuestId4, fieldGuestMail4, fieldGuestName4,
-                                fieldGuestPhone5, fieldGuestId5, fieldGuestMail5, fieldGuestName5, fieldGuestPhone6, fieldGuestId6, fieldGuestMail6, fieldGuestName6,
-                                fieldGuestPhone7, fieldGuestId7, fieldGuestMail7, fieldGuestName7, fieldGuestPhone8, fieldGuestId8, fieldGuestMail8, fieldGuestName8);
-                        break;
-                    case 9:
-                        Helper.visibleComboBoxes(comboBoxGuestNat1, comboBoxGuestType1, comboBoxGuestNat2, comboBoxGuestType2, comboBoxGuestNat3, comboBoxGuestType3, comboBoxGuestNat4, comboBoxGuestType4, comboBoxGuestNat5, comboBoxGuestType5,
-                                comboBoxGuestNat6, comboBoxGuestType6, comboBoxGuestNat7, comboBoxGuestType7, comboBoxGuestNat8, comboBoxGuestType8, comboBoxGuestNat9, comboBoxGuestType9);
-                        Helper.visibleJLabel(labelGuest1, labelGuest2, labelGuest3, labelGuest4, labelGuest5,
-                                labelGuest6, labelGuest7, labelGuest8, labelGuest9);
-                        Helper.visibleTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1, fieldGuestPhone2, fieldGuestId2, fieldGuestMail2, fieldGuestName2,
-                                fieldGuestPhone3, fieldGuestId3, fieldGuestMail3, fieldGuestName3, fieldGuestPhone4, fieldGuestId4, fieldGuestMail4, fieldGuestName4,
-                                fieldGuestPhone5, fieldGuestId5, fieldGuestMail5, fieldGuestName5, fieldGuestPhone6, fieldGuestId6, fieldGuestMail6, fieldGuestName6,
-                                fieldGuestPhone7, fieldGuestId7, fieldGuestMail7, fieldGuestName7, fieldGuestPhone8, fieldGuestId8, fieldGuestMail8, fieldGuestName8,
-                                fieldGuestPhone9, fieldGuestId9, fieldGuestMail9, fieldGuestName9);
-                        break;
-                    case 10:
-                        Helper.visibleComboBoxes(comboBoxGuestNat1, comboBoxGuestType1, comboBoxGuestNat2, comboBoxGuestType2, comboBoxGuestNat3, comboBoxGuestType3, comboBoxGuestNat4, comboBoxGuestType4, comboBoxGuestNat5, comboBoxGuestType5,
-                                comboBoxGuestNat6, comboBoxGuestType6, comboBoxGuestNat7, comboBoxGuestType7, comboBoxGuestNat8, comboBoxGuestType8, comboBoxGuestNat9, comboBoxGuestType9, comboBoxGuestNat10, comboBoxGuestType10);
-                        Helper.visibleJLabel(labelGuest1, labelGuest2, labelGuest3, labelGuest4, labelGuest5,
-                                labelGuest6, labelGuest7, labelGuest8, labelGuest9, labelGuest10);
-                        Helper.visibleTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1, fieldGuestPhone2, fieldGuestId2, fieldGuestMail2, fieldGuestName2,
-                                fieldGuestPhone3, fieldGuestId3, fieldGuestMail3, fieldGuestName3, fieldGuestPhone4, fieldGuestId4, fieldGuestMail4, fieldGuestName4,
-                                fieldGuestPhone5, fieldGuestId5, fieldGuestMail5, fieldGuestName5, fieldGuestPhone6, fieldGuestId6, fieldGuestMail6, fieldGuestName6,
-                                fieldGuestPhone7, fieldGuestId7, fieldGuestMail7, fieldGuestName7, fieldGuestPhone8, fieldGuestId8, fieldGuestMail8, fieldGuestName8,
-                                fieldGuestPhone9, fieldGuestId9, fieldGuestMail9, fieldGuestName9, fieldGuestPhone10, fieldGuestId10, fieldGuestMail10, fieldGuestName10);
-                        break;
+                if (totalGuestNumber >= 1) {
+                    Helper.showComboBoxes(comboBoxGuestNat1, comboBoxGuestType1);
+                    Helper.visibleJLabel(labelGuest1);
+                    Helper.showTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1);
+                    if (totalGuestNumber >= 2) {
+                        Helper.showComboBoxes(comboBoxGuestNat2, comboBoxGuestType2);
+                        Helper.visibleJLabel(labelGuest2);
+                        Helper.showTextFields(fieldGuestPhone2, fieldGuestId2, fieldGuestMail2, fieldGuestName2);
+                        if (totalGuestNumber >= 3) {
+                            Helper.showComboBoxes(comboBoxGuestNat3, comboBoxGuestType3);
+                            Helper.visibleJLabel(labelGuest3);
+                            Helper.showTextFields(fieldGuestPhone3, fieldGuestId3, fieldGuestMail3, fieldGuestName3);
+                            if (totalGuestNumber >= 4) {
+                                Helper.showComboBoxes(comboBoxGuestNat4, comboBoxGuestType4);
+                                Helper.visibleJLabel(labelGuest4);
+                                Helper.showTextFields(fieldGuestPhone4, fieldGuestId4, fieldGuestMail4, fieldGuestName4);
+                                if (totalGuestNumber >= 5) {
+                                    Helper.showComboBoxes(comboBoxGuestNat5, comboBoxGuestType5);
+                                    Helper.visibleJLabel(labelGuest5);
+                                    Helper.showTextFields(fieldGuestPhone5, fieldGuestId5, fieldGuestMail5, fieldGuestName5);
+                                    if (totalGuestNumber >= 6) {
+                                        Helper.showComboBoxes(comboBoxGuestNat6, comboBoxGuestType6);
+                                        Helper.visibleJLabel(labelGuest6);
+                                        Helper.showTextFields(fieldGuestPhone6, fieldGuestId6, fieldGuestMail6, fieldGuestName6);
+                                        if (totalGuestNumber >= 7) {
+                                            Helper.showComboBoxes(comboBoxGuestNat7, comboBoxGuestType7);
+                                            Helper.visibleJLabel(labelGuest7);
+                                            Helper.showTextFields(fieldGuestPhone7, fieldGuestId7, fieldGuestMail7, fieldGuestName7);
+                                            if (totalGuestNumber >= 8) {
+                                                Helper.showComboBoxes(comboBoxGuestNat8, comboBoxGuestType8);
+                                                Helper.visibleJLabel(labelGuest8);
+                                                Helper.showTextFields(fieldGuestPhone8, fieldGuestId8, fieldGuestMail8, fieldGuestName8);
+                                                if (totalGuestNumber >= 9) {
+                                                    Helper.showComboBoxes(comboBoxGuestNat9, comboBoxGuestType9);
+                                                    Helper.visibleJLabel(labelGuest9);
+                                                    Helper.showTextFields(fieldGuestPhone9, fieldGuestId9, fieldGuestMail9, fieldGuestName9);
+                                                    if (totalGuestNumber >= 10) {
+                                                        Helper.showComboBoxes(comboBoxGuestNat10, comboBoxGuestType10);
+                                                        Helper.visibleJLabel(labelGuest10);
+                                                        Helper.showTextFields(fieldGuestPhone10, fieldGuestId10, fieldGuestMail10, fieldGuestName10);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 if ((Helper.isFieldEmpty(fieldResPrice))) {
                     Helper.showMessage("fill");
                 } else {
+
                     String hotelName = tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(), 2).toString();
                     String city = fieldResDetailCity.getText();
-                    String periodName = tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(), 6).toString();
-                    String roomType = tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(), 9).toString();
                     Date checkinDate = Helper.stringToDate(fieldResCheckin.getText());
                     Date checkoutDate = Helper.stringToDate(fieldResCheckout.getText());
-
+                    String periodName = tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(), 6).toString();
+                    String roomType = tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(), 9).toString();
                     int duration = Helper.daysBetweenToDates(fieldResCheckin, fieldResCheckout);
                     int totalPrice = Integer.parseInt(fieldResPrice.getText());
 
@@ -1122,9 +1089,18 @@ public class EmployeeGUI extends JFrame {
                     guestMail1 = fieldGuestMail1.getText();
                     guestNat1 = comboBoxGuestNat1.getSelectedItem().toString();
                     guestType1 = comboBoxGuestType1.getSelectedItem().toString();
-                    if (EmployeeOp.addGuestDetails(reservationId, guestName1, guestId1, guestPhone1, guestMail1)) {
-                        Helper.showMessage("done");
-                        loadGuestModel();
+
+                    if (Helper.areFieldsEmpty(fieldGuestName1, fieldGuestId1, fieldGuestPhone1, fieldGuestMail1)) {
+                        Helper.showMessage("fill");
+                    } else {
+                        if (EmployeeOp.addGuestDetails(reservationId, guestName1, guestId1, guestPhone1, guestMail1)) {
+                            Helper.showMessage("done");
+                            tabbedPane3.setSelectedIndex(3);
+                            loadGuestModel();
+                            Helper.resetHideComboBoxes(comboBoxGuestNat1, comboBoxGuestType1);
+                            Helper.resetHideTextFields(fieldGuestPhone1, fieldGuestId1, fieldGuestMail1, fieldGuestName1);
+                            Helper.hiddenJLabel(labelGuest1);
+                        }
                     }
 
                     if (total >= 2) {
@@ -1134,9 +1110,15 @@ public class EmployeeGUI extends JFrame {
                         guestMail2 = fieldGuestMail2.getText();
                         guestNat2 = comboBoxGuestNat2.getSelectedItem().toString();
                         guestType2 = comboBoxGuestType2.getSelectedItem().toString();
-                        if (EmployeeOp.addGuestDetails(reservationId, guestName2, guestId2, guestPhone2, guestMail2)) {
-                            Helper.showMessage("done");
-                            loadGuestModel();
+                        if (Helper.areFieldsEmpty(fieldGuestName2, fieldGuestId2, fieldGuestPhone2, fieldGuestMail2)) {
+                            Helper.showMessage("fill");
+                        } else {
+                            if (EmployeeOp.addGuestDetails(reservationId, guestName2, guestId2, guestPhone2, guestMail2)) {
+                                loadGuestModel();
+                                Helper.resetHideComboBoxes(comboBoxGuestNat2, comboBoxGuestType2);
+                                Helper.resetHideTextFields(fieldGuestPhone2, fieldGuestId2, fieldGuestMail2, fieldGuestName2);
+                                Helper.hiddenJLabel(labelGuest2);
+                            }
                         }
 
                         if (total >= 3) {
@@ -1146,9 +1128,15 @@ public class EmployeeGUI extends JFrame {
                             guestMail3 = fieldGuestMail3.getText();
                             guestNat3 = comboBoxGuestNat3.getSelectedItem().toString();
                             guestType3 = comboBoxGuestType3.getSelectedItem().toString();
-                            if (EmployeeOp.addGuestDetails(reservationId, guestName3, guestId3, guestPhone3, guestMail3)) {
-                                Helper.showMessage("done");
-                                loadGuestModel();
+                            if (Helper.areFieldsEmpty(fieldGuestName3, fieldGuestId3, fieldGuestPhone3, fieldGuestMail3)) {
+                                Helper.showMessage("fill");
+                            } else {
+                                if (EmployeeOp.addGuestDetails(reservationId, guestName3, guestId3, guestPhone3, guestMail3)) {
+                                    loadGuestModel();
+                                    Helper.resetHideComboBoxes(comboBoxGuestNat3, comboBoxGuestType3);
+                                    Helper.resetHideTextFields(fieldGuestPhone3, fieldGuestId3, fieldGuestMail3, fieldGuestName3);
+                                    Helper.hiddenJLabel(labelGuest3);
+                                }
                             }
 
                             if (total >= 4) {
@@ -1158,9 +1146,15 @@ public class EmployeeGUI extends JFrame {
                                 guestMail4 = fieldGuestMail4.getText();
                                 guestNat4 = comboBoxGuestNat4.getSelectedItem().toString();
                                 guestType4 = comboBoxGuestType4.getSelectedItem().toString();
-                                if (EmployeeOp.addGuestDetails(reservationId, guestName4, guestId4, guestPhone4, guestMail4)) {
-                                    Helper.showMessage("done");
-                                    loadGuestModel();
+                                if (Helper.areFieldsEmpty(fieldGuestName4, fieldGuestId4, fieldGuestPhone4, fieldGuestMail4)) {
+                                    Helper.showMessage("fill");
+                                } else {
+                                    if (EmployeeOp.addGuestDetails(reservationId, guestName4, guestId4, guestPhone4, guestMail4)) {
+                                        loadGuestModel();
+                                        Helper.resetHideComboBoxes(comboBoxGuestNat4, comboBoxGuestType4);
+                                        Helper.resetHideTextFields(fieldGuestPhone4, fieldGuestId4, fieldGuestMail4, fieldGuestName4);
+                                        Helper.hiddenJLabel(labelGuest4);
+                                    }
                                 }
 
                                 if (total >= 5) {
@@ -1170,9 +1164,15 @@ public class EmployeeGUI extends JFrame {
                                     guestMail5 = fieldGuestMail5.getText();
                                     guestNat5 = comboBoxGuestNat5.getSelectedItem().toString();
                                     guestType5 = comboBoxGuestType5.getSelectedItem().toString();
-                                    if (EmployeeOp.addGuestDetails(reservationId, guestName5, guestId5, guestPhone5, guestMail5)) {
-                                        Helper.showMessage("done");
-                                        loadGuestModel();
+                                    if (Helper.areFieldsEmpty(fieldGuestName5, fieldGuestId5, fieldGuestPhone5, fieldGuestMail5)) {
+                                        Helper.showMessage("fill");
+                                    } else {
+                                        if (EmployeeOp.addGuestDetails(reservationId, guestName5, guestId5, guestPhone5, guestMail5)) {
+                                            loadGuestModel();
+                                            Helper.resetHideComboBoxes(comboBoxGuestNat5, comboBoxGuestType5);
+                                            Helper.resetHideTextFields(fieldGuestPhone5, fieldGuestId5, fieldGuestMail5, fieldGuestName5);
+                                            Helper.hiddenJLabel(labelGuest5);
+                                        }
                                     }
 
                                     if (total >= 6) {
@@ -1182,9 +1182,15 @@ public class EmployeeGUI extends JFrame {
                                         guestMail6 = fieldGuestMail6.getText();
                                         guestNat6 = comboBoxGuestNat6.getSelectedItem().toString();
                                         guestType6 = comboBoxGuestType6.getSelectedItem().toString();
-                                        if (EmployeeOp.addGuestDetails(reservationId, guestName6, guestId6, guestPhone6, guestMail6)) {
-                                            Helper.showMessage("done");
-                                            loadGuestModel();
+                                        if (Helper.areFieldsEmpty(fieldGuestName6, fieldGuestId6, fieldGuestPhone6, fieldGuestMail6)) {
+                                            Helper.showMessage("fill");
+                                        } else {
+                                            if (EmployeeOp.addGuestDetails(reservationId, guestName6, guestId6, guestPhone6, guestMail6)) {
+                                                loadGuestModel();
+                                                Helper.resetHideComboBoxes(comboBoxGuestNat6, comboBoxGuestType6);
+                                                Helper.resetHideTextFields(fieldGuestPhone6, fieldGuestId6, fieldGuestMail6, fieldGuestName6);
+                                                Helper.hiddenJLabel(labelGuest6);
+                                            }
                                         }
 
                                         if (total >= 7) {
@@ -1194,9 +1200,15 @@ public class EmployeeGUI extends JFrame {
                                             guestMail7 = fieldGuestMail7.getText();
                                             guestNat7 = comboBoxGuestNat7.getSelectedItem().toString();
                                             guestType7 = comboBoxGuestType7.getSelectedItem().toString();
-                                            if (EmployeeOp.addGuestDetails(reservationId, guestName7, guestId7, guestPhone7, guestMail7)) {
-                                                Helper.showMessage("done");
-                                                loadGuestModel();
+                                            if (Helper.areFieldsEmpty(fieldGuestName7, fieldGuestId7, fieldGuestPhone7, fieldGuestMail7)) {
+                                                Helper.showMessage("fill");
+                                            } else {
+                                                if (EmployeeOp.addGuestDetails(reservationId, guestName7, guestId7, guestPhone7, guestMail7)) {
+                                                    loadGuestModel();
+                                                    Helper.resetHideComboBoxes(comboBoxGuestNat7, comboBoxGuestType7);
+                                                    Helper.resetHideTextFields(fieldGuestPhone7, fieldGuestId7, fieldGuestMail7, fieldGuestName7);
+                                                    Helper.hiddenJLabel(labelGuest7);
+                                                }
                                             }
 
                                             if (total >= 8) {
@@ -1206,9 +1218,15 @@ public class EmployeeGUI extends JFrame {
                                                 guestMail8 = fieldGuestMail8.getText();
                                                 guestNat8 = comboBoxGuestNat8.getSelectedItem().toString();
                                                 guestType8 = comboBoxGuestType8.getSelectedItem().toString();
-                                                if (EmployeeOp.addGuestDetails(reservationId, guestName8, guestId8, guestPhone8, guestMail8)) {
-                                                    Helper.showMessage("done");
-                                                    loadGuestModel();
+                                                if (Helper.areFieldsEmpty(fieldGuestName8, fieldGuestId8, fieldGuestPhone8, fieldGuestMail8)) {
+                                                    Helper.showMessage("fill");
+                                                } else {
+                                                    if (EmployeeOp.addGuestDetails(reservationId, guestName8, guestId8, guestPhone8, guestMail8)) {
+                                                        loadGuestModel();
+                                                        Helper.resetHideComboBoxes(comboBoxGuestNat8, comboBoxGuestType8);
+                                                        Helper.resetHideTextFields(fieldGuestPhone8, fieldGuestId8, fieldGuestMail8, fieldGuestName8);
+                                                        Helper.hiddenJLabel(labelGuest8);
+                                                    }
                                                 }
 
                                                 if (total >= 9) {
@@ -1218,9 +1236,15 @@ public class EmployeeGUI extends JFrame {
                                                     guestMail9 = fieldGuestMail9.getText();
                                                     guestNat9 = comboBoxGuestNat9.getSelectedItem().toString();
                                                     guestType9 = comboBoxGuestType9.getSelectedItem().toString();
-                                                    if (EmployeeOp.addGuestDetails(reservationId, guestName9, guestId9, guestPhone9, guestMail9)) {
-                                                        Helper.showMessage("done");
-                                                        loadGuestModel();
+                                                    if (Helper.areFieldsEmpty(fieldGuestName9, fieldGuestId9, fieldGuestPhone9, fieldGuestMail9)) {
+                                                        Helper.showMessage("fill");
+                                                    } else {
+                                                        if (EmployeeOp.addGuestDetails(reservationId, guestName9, guestId9, guestPhone9, guestMail9)) {
+                                                            loadGuestModel();
+                                                            Helper.resetHideComboBoxes(comboBoxGuestNat9, comboBoxGuestType9);
+                                                            Helper.resetHideTextFields(fieldGuestPhone9, fieldGuestId9, fieldGuestMail9, fieldGuestName9);
+                                                            Helper.hiddenJLabel(labelGuest9);
+                                                        }
                                                     }
 
                                                     if (total >= 10) {
@@ -1230,9 +1254,15 @@ public class EmployeeGUI extends JFrame {
                                                         guestMail10 = fieldGuestMail10.getText();
                                                         guestNat10 = comboBoxGuestNat10.getSelectedItem().toString();
                                                         guestType10 = comboBoxGuestType10.getSelectedItem().toString();
-                                                        if (EmployeeOp.addGuestDetails(reservationId, guestName10, guestId10, guestPhone10, guestMail10)) {
-                                                            Helper.showMessage("done");
-                                                            loadGuestModel();
+                                                        if (Helper.areFieldsEmpty(fieldGuestName10, fieldGuestId10, fieldGuestPhone10, fieldGuestMail10)) {
+                                                            Helper.showMessage("fill");
+                                                        } else {
+                                                            if (EmployeeOp.addGuestDetails(reservationId, guestName10, guestId10, guestPhone10, guestMail10)) {
+                                                                loadGuestModel();
+                                                                Helper.resetHideComboBoxes(comboBoxGuestNat10, comboBoxGuestType10);
+                                                                Helper.resetHideTextFields(fieldGuestPhone10, fieldGuestId10, fieldGuestMail10, fieldGuestName10);
+                                                                Helper.hiddenJLabel(labelGuest10);
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -1244,16 +1274,14 @@ public class EmployeeGUI extends JFrame {
                         }
                     }
                 }
-                if (false) {
-                    Helper.showMessage("fill");
-                } else {
-                    int id = Integer.parseInt(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(), 0).toString());
-                    int stock = Integer.parseInt(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(), 10).toString());
 
-                    if (EmployeeOp.decreaseStock(id, stock - 1)) {
-                        loadSalesRoomModel();
-                    }
+                int hotelId = Integer.parseInt(tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 1).toString());
+                String periodName = tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 4).toString();
+                String roomType = tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 3).toString();
+                int stock = EmployeeOp.getRoomSalesDetailsByHotelId(hotelId, roomType, periodName).getStock();
 
+                if (EmployeeOp.increaseStock(hotelId, periodName, roomType, stock - 1)) {
+                    loadSalesRoomModel();
                 }
             }
         });
