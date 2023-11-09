@@ -5,26 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee8434ce-7b1f-4d0e-966b-1f16d09af954" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/icons/admin.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/icons/loginScreen.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/icons/managementhotel.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/icons/managementprice.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/icons/managementroom.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/icons/salesGuest.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/icons/salesLogGuest.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/icons/salesLogRes.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/icons/salesRes.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/icons/salessearch.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/penguin (1).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/penguin.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tourism_agency.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Helper/Helper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Helper/Helper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/1 (1) (1).jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Icon/1 (1) (1).jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Model/EmployeeOp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/AdminGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/AdminGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/EmployeeGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/LoginGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/View/LoginGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/double (2).jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Icon/double (2).jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kingSuite.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Icon/kingSuite.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/penguin (1).png" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Icon/penguin (1).png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/penguin.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Icon/penguin.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/selectRoomType.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Icon/selectRoomType.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/single (1).jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/TourismAgencySystem/Icon/single (1).jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,11 +54,11 @@
     "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
     "UI_DESIGNER_EDITOR_MODE.PaletteManager.STATE": "right",
     "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "211",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "false",
     "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.STATE": "left",
     "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "260",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/batuh/OneDrive/Masaüstü/Projeler/PatikaProjeler/Tourism-Agency-System/src",
+    "last_opened_file_path": "C:/Users/batuh/OneDrive/Masaüstü/Projeler/PatikaProjeler/Tourism-Agency-System",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -76,10 +67,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\batuh\OneDrive\Masaüstü\Projeler\PatikaProjeler\Tourism-Agency-System\src" />
       <recent name="C:\Users\batuh\OneDrive\Masaüstü\Projeler\PatikaProjeler\Tourism-Agency-System" />
+      <recent name="C:\Users\batuh\OneDrive\Masaüstü\Projeler\PatikaProjeler\Tourism-Agency-System\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\batuh\OneDrive\Masaüstü\Projeler\PatikaProjeler\Tourism-Agency-System\src\com\TourismAgencySystem\Icon" />
       <recent name="C:\Users\batuh\OneDrive\Masaüstü\Projeler\PatikaProjeler\Tourism-Agency-System\icons" />
       <recent name="C:\Users\batuh\OneDrive\Masaüstü\Projeler\PatikaProjeler\Tourism-Agency-System" />
       <recent name="C:\Users\batuh\OneDrive\Masaüstü\Projeler\PatikaProjeler\Tourism-Agency-System\src" />
