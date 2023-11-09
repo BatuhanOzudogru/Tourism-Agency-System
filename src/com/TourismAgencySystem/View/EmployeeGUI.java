@@ -10,7 +10,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.util.*;
 
 public class EmployeeGUI extends JFrame {
@@ -214,6 +213,7 @@ public class EmployeeGUI extends JFrame {
     private JLabel doubleIcon;
     private JLabel kingSuiteIcon;
     private JLabel selectRoomTypeIcon;
+    private JButton buttonExit;
     private DefaultTableModel modelHotelHotelList;
     private Object[] rowHotelHotelList;
     private DefaultTableModel modelPriceRoomList;
@@ -255,10 +255,13 @@ public class EmployeeGUI extends JFrame {
         modelHotelHotelList.setColumnIdentifiers(colHotelHotelList);
         rowHotelHotelList = new Object[colHotelHotelList.length];
 
+
         loadHotelModel();
 
         tableHotelHotelList.setModel(modelHotelHotelList);
         tableHotelHotelList.getTableHeader().setReorderingAllowed(false);
+        tableHotelHotelList.getColumnModel().getColumn(0).setMaxWidth(30);
+        tableHotelHotelList.getColumnModel().getColumn(4).setMaxWidth(35);
 
         modelPriceRoomList = new DefaultTableModel() {
             @Override
@@ -274,8 +277,10 @@ public class EmployeeGUI extends JFrame {
         modelPriceRoomList.setColumnIdentifiers(colPriceRoomList);
         rowPriceRoomList = new Object[colPriceRoomList.length];
 
+
         tablePriceRoomList.setModel(modelPriceRoomList);
         tablePriceRoomList.getTableHeader().setReorderingAllowed(false);
+        tablePriceRoomList.getColumnModel().getColumn(0).setMaxWidth(30);
         tablePriceRoomList.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -314,6 +319,9 @@ public class EmployeeGUI extends JFrame {
 
         tableSearchHotelList.setModel(modelSearchHotelList);
         tableSearchHotelList.getTableHeader().setReorderingAllowed(false);
+        tableSearchHotelList.getColumnModel().getColumn(0).setMaxWidth(30);
+        tableSearchHotelList.getColumnModel().getColumn(1).setMaxWidth(60);
+        tableSearchHotelList.getColumnModel().getColumn(5).setMaxWidth(35);
 
         modelLogResReservationList = new DefaultTableModel() {
             @Override
@@ -335,6 +343,10 @@ public class EmployeeGUI extends JFrame {
 
         tableLogResReservationList.setModel(modelLogResReservationList);
         tableLogResReservationList.getTableHeader().setReorderingAllowed(false);
+        tableLogResReservationList.getColumnModel().getColumn(0).setMaxWidth(30);
+        tableLogResReservationList.getColumnModel().getColumn(1).setMaxWidth(60);
+        tableLogResReservationList.getColumnModel().getColumn(6).setMinWidth(100);
+        tableLogResReservationList.getColumnModel().getColumn(9).setMaxWidth(60);
 
         modelLogGuestGuestList = new DefaultTableModel() {
             @Override
@@ -347,7 +359,7 @@ public class EmployeeGUI extends JFrame {
             }
         };
 
-        Object[] colLogGuestGuestList = {"ID", "Reservation ID", "Full Name", "Nationality ID", "Phone Number", "Email"};
+        Object[] colLogGuestGuestList = {"ID", "Res. ID", "Full Name", "Nationality ID", "Phone Number", "Email"};
         modelLogGuestGuestList.setColumnIdentifiers(colLogGuestGuestList);
         rowLogGuestGuestList = new Object[colLogGuestGuestList.length];
 
@@ -355,6 +367,8 @@ public class EmployeeGUI extends JFrame {
 
         tableLogGuestGuestList.setModel(modelLogGuestGuestList);
         tableLogGuestGuestList.getTableHeader().setReorderingAllowed(false);
+        tableLogGuestGuestList.getColumnModel().getColumn(0).setMaxWidth(30);
+        tableLogGuestGuestList.getColumnModel().getColumn(1).setMaxWidth(60);
 
         radioButtonSeason.addActionListener(new ActionListener() {
             @Override
@@ -549,17 +563,20 @@ public class EmployeeGUI extends JFrame {
                     Date offSeasonStart = Helper.stringToDate(fieldOffSeasonStartDate.getText());
                     Date offSeasonEnd = Helper.stringToDate(fieldOffSeasonEndDate.getText());
 
-                    if (EmployeeOp.updateHotelDetails(id, name, city, district, star, address, mail, phone, parking, wifi, pool, gym, concierge, spa, roomService) &&
-                            EmployeeOp.updateHotelPeriodDetails(id, seasonStart, seasonEnd, offSeasonStart, offSeasonEnd)) {
+                    if (EmployeeOp.updateHotelDetails(id, name, city, district, star, address, mail, phone, parking, wifi, pool, gym, concierge, spa, roomService)
+                            && EmployeeOp.updateHotelPeriodDetails(id, seasonStart, seasonEnd, offSeasonStart, offSeasonEnd)
+                            && EmployeeOp.updateRoomSalesDate(seasonStart, seasonEnd, id, "Season")
+                            && EmployeeOp.updateRoomSalesDate(offSeasonStart, offSeasonEnd, id, "Off Season")) {
                         Helper.showMessage("done");
                         loadHotelModel();
+                        loadSalesRoomModel();
 
                         Helper.resetFormFields(fieldHotelName, fieldHotelCity, fieldHotelAddress, fieldHotelDistrict, fieldHotelMail, fieldHotelPhone, fieldHotelStar);
                         Helper.resetCheckBoxes(checkBoxPool, checkBoxWifi, checkBoxParking, checkBoxGym, checkBoxConcierge, checkBoxSpa, checkBoxRoomService);
                         Helper.resetTextFields(fieldSeasonStartDate, fieldSeasonEndDate, fieldOffSeasonStartDate, fieldOffSeasonEndDate);
                         Helper.resetRadioButtons(radioButtonSeason, radioButtonOffSeason);
                     }
-                    loadSalesRoomModel();
+
                     scrollPaneHotelDetails.getVerticalScrollBar().setValue(0);
 
                 }
@@ -664,6 +681,7 @@ public class EmployeeGUI extends JFrame {
 
                     boolean showDoneMsg = true;
                     boolean showExistsAlert = true;
+                    boolean isRadioButtonSeasonSelected = false;
 
 
                     if (radioButtonSeason.isSelected()) {
@@ -676,14 +694,13 @@ public class EmployeeGUI extends JFrame {
                                 showExistsAlert = false;
                             }
 
-                        } else if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, seasonStock)) {
-
+                        } else if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, seasonStock) && !isRadioButtonSeasonSelected) {
+                            isRadioButtonSeasonSelected = true;
                             if (EmployeeOp.addRoomDetails(hotel_id, room_type_id, seasonStock, offSeasonStock, bed, size, tv, minibar)) {
                                 if (showDoneMsg) {
                                     Helper.showMessage("done");
                                     showDoneMsg = false;
                                 }
-
                             }
                         }
                     }
@@ -695,10 +712,11 @@ public class EmployeeGUI extends JFrame {
                             if (showExistsAlert) {
                                 Helper.showMessage("This room exists. Either add a new room or continue with the update button");
                             }
-                        } else if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, offSeasonStock)) {
+                        } else if (EmployeeOp.addRoomSalesDetails(hotel_id, name, city, district, star, periodName, periodStart, periodEnd, roomName, offSeasonStock) && !isRadioButtonSeasonSelected) {
                             if (EmployeeOp.addRoomDetails(hotel_id, room_type_id, seasonStock, offSeasonStock, bed, size, tv, minibar)) {
                                 if (showDoneMsg) {
                                     Helper.showMessage("done");
+
 
                                 }
                             }
@@ -946,7 +964,7 @@ public class EmployeeGUI extends JFrame {
                             fieldResTv.setText(String.valueOf(obj.getTv()));
                         }
                         int daysBetween = Helper.daysBetweenToDates(fieldSearchCheckin, fieldSearchCheckout);
-                        labelResDuration.setText(" and " + (daysBetween) + " nights" + "for " + (daysBetween + 1) + " days");
+                        labelResDuration.setText("for " + (daysBetween + 1) + " days"+" and " + (daysBetween) + " nights");
                         tabbedPane3.setSelectedIndex(1);
                         loadAccoCombo();
                     } else {
@@ -1292,9 +1310,15 @@ public class EmployeeGUI extends JFrame {
                 String roomType = tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 3).toString();
                 int stock = EmployeeOp.getRoomSalesDetailsByHotelId(hotelId, roomType, periodName).getStock();
 
-                if (EmployeeOp.increaseStock(hotelId, periodName, roomType, stock - 1)) {
+                if (EmployeeOp.updateStock(hotelId, periodName, roomType, stock - 1)) {
                     loadSalesRoomModel();
                 }
+                Helper.resetFormFields(fieldSearchCheckin, fieldSearchCheckout, fieldResDetailCity, fieldResDetailDistrict, fieldResDetailAddress, fieldResDetailPhone,
+                        fieldResDetailStar, fieldResCheckin, fieldResCheckout, fieldResBed, fieldResRoomSize, fieldResTv, fieldResMinibar, fieldResPrice);
+                Helper.resetLabels(labelHotelName, labelResPeriod, labelResRoomType, labelResDuration, labelResAdult, labelResChild,
+                        labelGuestTv,labelGuestRoomSize, labelGuestMinibar, labelGuestBed);
+                Helper.resetCheckBoxes(freeParkingCheckBox, wiFiCheckBox, swimmingPoolCheckBox, fitnessCenterCheckBox, conciergeCheckBox, spaCheckBox, roomServiceCheckBox);
+                comboBoxResHostelType.removeAllItems();
             }
         });
         buttonLogResDelete.addActionListener(new ActionListener() {
@@ -1308,7 +1332,7 @@ public class EmployeeGUI extends JFrame {
                     String roomType = tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 3).toString();
 
                     int stock = EmployeeOp.getRoomSalesDetailsByHotelId(hotelId, roomType, periodName).getStock();
-                    if (EmployeeOp.increaseStock(hotelId, periodName, roomType, stock + 1)) {
+                    if (EmployeeOp.updateStock(hotelId, periodName, roomType, stock + 1)) {
                         loadSalesRoomModel();
                     }
 
@@ -1379,6 +1403,15 @@ public class EmployeeGUI extends JFrame {
         });
 
 
+        buttonExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(Helper.confirm("sure")){
+                    dispose();
+                    LoginGUI loginGUI = new LoginGUI();
+                }
+            }
+        });
     }
 
     public void loadAccoCombo() {
@@ -1472,16 +1505,26 @@ public class EmployeeGUI extends JFrame {
         for (HotelPeriod obj : EmployeeOp.getHotelPeriodByHotelId(hotelId)) {
             if (obj.getSeasonStart() != null) {
                 radioButtonSeason.setSelected(true);
+                Helper.enableTextFields(fieldSeasonStartDate, fieldSeasonEndDate);
                 fieldSeasonStartDate.setText(obj.getSeasonStart().toString());
                 fieldSeasonEndDate.setText(obj.getSeasonEnd().toString());
+
+            } else {
+                radioButtonSeason.setSelected(false);
+                Helper.resetTextFields(fieldSeasonStartDate,fieldSeasonEndDate);
             }
+
             if (obj.getOffSeasonStart() != null) {
                 radioButtonOffSeason.setSelected(true);
+                Helper.enableTextFields(fieldOffSeasonStartDate, fieldOffSeasonEndDate);
                 fieldOffSeasonStartDate.setText(obj.getOffSeasonStart().toString());
                 fieldOffSeasonEndDate.setText(obj.getOffSeasonEnd().toString());
+            } else {
+                radioButtonOffSeason.setSelected(false);
+                Helper.resetTextFields(fieldOffSeasonStartDate,fieldOffSeasonEndDate);
             }
         }
-        Helper.enableTextFields(fieldSeasonStartDate, fieldSeasonEndDate, fieldOffSeasonStartDate, fieldOffSeasonEndDate);
+
     }
 
     private void loadRoomDetailsModel() {

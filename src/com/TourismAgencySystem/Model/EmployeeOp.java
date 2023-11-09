@@ -634,6 +634,22 @@ public class EmployeeOp {
         }
         return true;
     }
+    public static boolean updateRoomSalesDate(Date startDate, Date endDate, int hotel_id, String periodName) {
+        String query = "UPDATE room_sales SET start_date=?,end_date=? WHERE hotel_id=? AND period=?";
+
+        try {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+            ps.setDate(1, (java.sql.Date) startDate);
+            ps.setDate(2, (java.sql.Date) endDate);
+            ps.setInt(3, hotel_id);
+            ps.setString(4, periodName);
+
+            return ps.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
     public static boolean updateRoomPrice(int id, int hotel_id, int period_id, int room_type_id, int acco_id, int adult_price, int child_price) {
         String query = "UPDATE room_price SET hotel_id=?,period_id=?,room_type=?,accommodation_id=?,adult_price=?,child_price=? WHERE id=?";
@@ -655,21 +671,22 @@ public class EmployeeOp {
         return true;
     }
 
-    public static boolean decreaseStock(int id, int stock) {
-        String query = "UPDATE room_sales SET stock=? WHERE id=?";
+//    public static boolean decreaseStock(int id, int stock) {
+//        String query = "UPDATE room_sales SET stock=? WHERE id=?";
+//
+//        try {
+//            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+//            ps.setInt(1, stock);
+//            ps.setInt(2, id);
+//
+//            return ps.executeUpdate() != -1;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return true;
+//    }
 
-        try {
-            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
-            ps.setInt(1, stock);
-            ps.setInt(2, id);
-
-            return ps.executeUpdate() != -1;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
-    public static boolean increaseStock(int hotelId,String period,String roomType, int stock) {
+    public static boolean updateStock(int hotelId, String period, String roomType, int stock) {
         String query = "UPDATE room_sales SET stock=? WHERE hotel_id=? AND period=? AND room_type=?";
 
         try {

@@ -109,6 +109,11 @@ public class Helper {
             checkbox.setSelected(false);
         }
     }
+    public static void resetLabels(JLabel... labels) {
+        for (JLabel label : labels) {
+            label.setText(null);
+        }
+    }
 
     public static void resetTextFields(JTextField... dateFields) {
         for (JTextField field : dateFields) {
