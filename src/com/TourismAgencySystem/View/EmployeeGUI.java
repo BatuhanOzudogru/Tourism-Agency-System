@@ -446,6 +446,9 @@ public class EmployeeGUI extends JFrame {
                 }
             }
         });
+
+        //Değerlendirme formu 9
+        // Acente çalışanı anlaşmalı olduğu otelleri sisteme hotel adı, adres, E-posta, telefon, yıldız, tesis özellikleri, pansiyon tipleri bilgilerini girerek kaydedebiliyor mu?
         buttonHotelAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -490,10 +493,27 @@ public class EmployeeGUI extends JFrame {
                     if (checkBoxRoomService.isSelected()) {
                         roomService = "Yes";
                     }
-                    Date seasonStart = Helper.stringToDate(fieldSeasonStartDate.getText());
-                    Date seasonEnd = Helper.stringToDate(fieldSeasonEndDate.getText());
-                    Date offSeasonStart = Helper.stringToDate(fieldOffSeasonStartDate.getText());
-                    Date offSeasonEnd = Helper.stringToDate(fieldOffSeasonEndDate.getText());
+                    //Değerlendirme Formu 10
+                    //Otellerin sisteme eklenmesinde dönem yönetimi yapılmış mı?
+                    Date seasonStart = null;
+                    if (!fieldSeasonStartDate.getText().isEmpty()) {
+                        seasonStart = Helper.stringToDate(fieldSeasonStartDate.getText());
+                    }
+
+                    Date seasonEnd = null;
+                    if (!fieldSeasonEndDate.getText().isEmpty()) {
+                        seasonEnd = Helper.stringToDate(fieldSeasonEndDate.getText());
+                    }
+
+                    Date offSeasonStart = null;
+                    if (!fieldOffSeasonStartDate.getText().isEmpty()) {
+                        offSeasonStart = Helper.stringToDate(fieldOffSeasonStartDate.getText());
+                    }
+
+                    Date offSeasonEnd = null;
+                    if (!fieldOffSeasonEndDate.getText().isEmpty()) {
+                        offSeasonEnd = Helper.stringToDate(fieldOffSeasonEndDate.getText());
+                    }
 
                     EmployeeOp.checkHotelList(name, city, district);
                     if (EmployeeOp.checkHotelList(name, city, district) != null) {
@@ -509,7 +529,9 @@ public class EmployeeGUI extends JFrame {
                         Helper.resetRadioButtons(radioButtonSeason, radioButtonOffSeason);
                     }
 
+
                     scrollPaneHotelDetails.getVerticalScrollBar().setValue(0);
+
                 }
             }
         });
@@ -652,6 +674,8 @@ public class EmployeeGUI extends JFrame {
                 Helper.resetRadioButtons(radioButtonSeason, radioButtonOffSeason);
             }
         });
+        //Değerlendirme Formu 11
+        //Acenta çalışanı sisteme kayıtlı otellere oda ekleyebiliyor mu? Oda eklerken oda tipi , oda özellikleri  ve stok miktarı girişi dikkate alınmış mı?
         buttonRoomTypeAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -760,6 +784,8 @@ public class EmployeeGUI extends JFrame {
                 }
             }
         });
+        //Değerlendirme Formu 12
+        //Sisteme yeni eklenen odaların fiyatları, sezon, pansiyon tipi ve konaklayanların yetişkin/çocuk olma durumuna göre belirleniyor mu?
         buttonAddSingle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -816,6 +842,8 @@ public class EmployeeGUI extends JFrame {
                 }
             }
         });
+        //Değerlendirme Formu 12
+        //Sisteme yeni eklenen odaların fiyatları, sezon, pansiyon tipi ve konaklayanların yetişkin/çocuk olma durumuna göre belirleniyor mu?
         buttonAddDouble.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -847,6 +875,8 @@ public class EmployeeGUI extends JFrame {
                 }
             }
         });
+        //Değerlendirme Formu 12
+        //Sisteme yeni eklenen odaların fiyatları, sezon, pansiyon tipi ve konaklayanların yetişkin/çocuk olma durumuna göre belirleniyor mu?
         buttonAddKingSuite.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -893,6 +923,8 @@ public class EmployeeGUI extends JFrame {
                 }
             }
         });
+        //Değerlendirme Formu 14
+        //Arama sonucuna uygun otellerin bilgileri (adres, yıldız, otel imkanları vb) ve odaların bilgileri (giriş, çıkış tarihi, yetişkin, çocuk sayısı, yatak sayısı, varsa, mini bar, TV vb) kullanıcıya gösteriliyor mu?
         buttonSearchSelect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -973,7 +1005,8 @@ public class EmployeeGUI extends JFrame {
                 }
             }
         });
-
+        //Değerlendirme Formu 13
+        //Acente çalışanı, tarih aralığına, bölgeye veya otellere ve misafir bilgisine göre odaları başarılı bir şekilde arayabiliyor mu?
         buttonSearchSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1095,7 +1128,10 @@ public class EmployeeGUI extends JFrame {
             }
         });
 
-
+        //Değerlendirme Formu 16
+        //Acenta çalışanı müşterinin talebine uygun odayı müşteri bilgilerini girerek başarılı şekilde rezervasyon yapabiliyor mu?
+        //Değerlendirme Formu 17
+        //Rezervasyon yapılan odanın stoğu azalıyor mu?
         buttonComplete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1309,7 +1345,8 @@ public class EmployeeGUI extends JFrame {
                 String periodName = tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 4).toString();
                 String roomType = tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 3).toString();
                 int stock = EmployeeOp.getRoomSalesDetailsByHotelId(hotelId, roomType, periodName).getStock();
-
+                //Değerlendirme Formu 17
+                //Rezervasyon yapılan odanın stoğu azalıyor mu?
                 if (EmployeeOp.updateStock(hotelId, periodName, roomType, stock - 1)) {
                     loadSalesRoomModel();
                 }
@@ -1321,36 +1358,8 @@ public class EmployeeGUI extends JFrame {
                 comboBoxResHostelType.removeAllItems();
             }
         });
-        buttonLogResDelete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (false) {
-                    Helper.showMessage("fill");
-                } else {
-                    int hotelId = Integer.parseInt(tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 1).toString());
-                    String periodName = tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 4).toString();
-                    String roomType = tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 3).toString();
-
-                    int stock = EmployeeOp.getRoomSalesDetailsByHotelId(hotelId, roomType, periodName).getStock();
-                    if (EmployeeOp.updateStock(hotelId, periodName, roomType, stock + 1)) {
-                        loadSalesRoomModel();
-                    }
-
-                }
-                if (Helper.confirm("sure")) {
-                    int id = Integer.parseInt(tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 0).toString());
-                    if (EmployeeOp.deleteResDetails(id)) {
-                        Helper.showMessage("done");
-                        loadResModel();
-
-                    } else {
-                        Helper.showMessage("error");
-                    }
-                }
-
-
-            }
-        });
+        //Değerlendirme Formu 18
+        //Acente çalışanları, sistem üzerinden yapılan rezervasyonları başarılı bir şekilde listeleye biliyor mu ve silme işlemi yapabiliyor mu?
         buttonLogResSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1382,6 +1391,38 @@ public class EmployeeGUI extends JFrame {
                 String query = EmployeeOp.searchResQuery(hotelCityName, checkIn, checkOut, minPrice, maxPrice);
                 ArrayList<Reservation> searchReservation = EmployeeOp.searchResList(query);
                 loadResModel(searchReservation);
+            }
+        });
+        //Değerlendirme Formu 18
+        //Acente çalışanları, sistem üzerinden yapılan rezervasyonları başarılı bir şekilde listeleye biliyor mu ve silme işlemi yapabiliyor mu?
+        buttonLogResDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (false) {
+                    Helper.showMessage("fill");
+                } else {
+                    int hotelId = Integer.parseInt(tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 1).toString());
+                    String periodName = tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 4).toString();
+                    String roomType = tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 3).toString();
+
+                    int stock = EmployeeOp.getRoomSalesDetailsByHotelId(hotelId, roomType, periodName).getStock();
+                    if (EmployeeOp.updateStock(hotelId, periodName, roomType, stock + 1)) {
+                        loadSalesRoomModel();
+                    }
+
+                }
+                if (Helper.confirm("sure")) {
+                    int id = Integer.parseInt(tableLogResReservationList.getValueAt(tableLogResReservationList.getSelectedRow(), 0).toString());
+                    if (EmployeeOp.deleteResDetails(id)) {
+                        Helper.showMessage("done");
+                        loadResModel();
+
+                    } else {
+                        Helper.showMessage("error");
+                    }
+                }
+
+
             }
         });
         buttonLogGuestSearch.addActionListener(new ActionListener() {
@@ -1719,7 +1760,8 @@ public class EmployeeGUI extends JFrame {
             modelLogGuestGuestList.addRow(rowLogGuestGuestList);
         }
     }
-
+    //Değerlendirme formu 15
+    //Misafir bilgisi, kalınacak gece sayısı ve pansiyon tipine göre konaklamaya ait fiyat başarılı bir şekilde hesaplanıyor mu?
     public int getPrice() {
         int hotelId = Integer.parseInt(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(), 1).toString());
         int roomTypeId = EmployeeOp.getFetchRoomIdByName(tableSearchHotelList.getValueAt(tableSearchHotelList.getSelectedRow(), 9).toString()).getId();

@@ -52,10 +52,9 @@ public class Helper {
         }
         return false;
     }
-    public static boolean isFieldEmpty(JTextArea area) {
-        return area.getText().trim().isEmpty();
-    }
-
+    //Değerlendirme Formu 19-20
+    //Kullanıcıya başarılı işlemler için uygun pop up mesajları veriliyor mu?
+    //Kullanıcıya hatalı işlemler için uygun hata mesajları veriliyor mu?
     public static void showMessage(String str) {
         optionPage();
         String msg;
@@ -78,6 +77,17 @@ public class Helper {
                 title = "Error";
         }
         JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+    public static boolean isValidDateFormat(String input) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+
+        try {
+            dateFormat.parse(input);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 
     public static void optionPage() {
@@ -149,17 +159,6 @@ public class Helper {
         }
     }
 
-    public static void visibleTextFields(JTextField... dateFields) {
-        for (JTextField field : dateFields) {
-            field.setVisible(true);
-        }
-    }
-
-    public static void visibleComboBoxes(JComboBox... comboBoxes) {
-        for (JComboBox box : comboBoxes) {
-            box.setVisible(true);
-        }
-    }
 
     public static void visibleJLabel(JLabel... JLabels) {
         for (JLabel lbl : JLabels) {
@@ -215,17 +214,7 @@ public class Helper {
             return null;
         }
     }
-    public static boolean isValidDateFormat(String input) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
 
-        try {
-            dateFormat.parse(input);
-            return true;
-        } catch (ParseException e) {
-            return false;
-        }
-    }
 
     public static int daysBetweenToDates(JTextField d1, JTextField d2) {
         LocalDate date1 = LocalDate.parse(d1.getText());

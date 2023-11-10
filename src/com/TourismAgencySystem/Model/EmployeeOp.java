@@ -671,21 +671,6 @@ public class EmployeeOp {
         return true;
     }
 
-//    public static boolean decreaseStock(int id, int stock) {
-//        String query = "UPDATE room_sales SET stock=? WHERE id=?";
-//
-//        try {
-//            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
-//            ps.setInt(1, stock);
-//            ps.setInt(2, id);
-//
-//            return ps.executeUpdate() != -1;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return true;
-//    }
-
     public static boolean updateStock(int hotelId, String period, String roomType, int stock) {
         String query = "UPDATE room_sales SET stock=? WHERE hotel_id=? AND period=? AND room_type=?";
 
@@ -774,38 +759,7 @@ public class EmployeeOp {
         }
         return obj;
     }
-    public static Hotel getHotelNameByHotelId(int hotelId) {
 
-        Hotel obj=null;
-
-        try {
-            Statement st = DBConnector.getInstance().createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM hotel WHERE id = " + hotelId);
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String hotelName = rs.getString("hotel_name");
-                String city = rs.getString("city");
-                String district = rs.getString("district");
-                String star = rs.getString("star");
-                String address = rs.getString("address");
-                String hotelEmail = rs.getString("hotel_email");
-                String hotelPhone = rs.getString("hotel_phone");
-                String parking = rs.getString("parking");
-                String wifi = rs.getString("wifi");
-                String pool = rs.getString("pool");
-                String gym = rs.getString("gym");
-                String concierge = rs.getString("concierge");
-                String spa = rs.getString("spa");
-                String roomService = rs.getString("room_service");
-
-                obj = new Hotel(id, hotelName, city, district, star, address, hotelEmail, hotelPhone, parking, wifi, pool, gym, concierge, spa, roomService);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return obj;
-    }
     public static ArrayList<Room> getRoomDetailsByHotelId(int hotelId, int roomTypeId) {
         ArrayList<Room> roomDetailsList = new ArrayList<>();
 
@@ -943,30 +897,7 @@ public class EmployeeOp {
         return obj;
     }
 
-    //    public static ArrayList<HotelPeriod> getSeasonDateHotelId(int hotelId) {
-//        ArrayList<HotelPeriod> hotelPeriodList = new ArrayList<>();
-//        HotelPeriod obj;
-//
-//        try {
-//            Statement st = DBConnector.getInstance().createStatement();
-//            ResultSet rs = st.executeQuery("SELECT * FROM hotel_period WHERE id = " + hotelId);
-//
-//            while (rs.next()) {
-//                int id = rs.getInt("id");
-//                Date seasonStart = rs.getDate("season_start");
-//                Date seasonEnd = rs.getDate("season_end");
-//                Date offSeasonStart = rs.getDate("offseason_start");
-//                Date offSeasonEnd = rs.getDate("offseason_end");
-//
-//                obj = new HotelPeriod(id, seasonStart, seasonEnd, offSeasonStart, offSeasonEnd);
-//                hotelPeriodList.add(obj);
-//
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return hotelPeriodList;
-//    }
+
     public static boolean deleteHotelDetails(int id) {
         String query = "DELETE FROM hotel WHERE id = ?";
         try {
@@ -1142,10 +1073,6 @@ public class EmployeeOp {
             }
 
         }
-
-
-
-
         return query;
     }
 
@@ -1196,7 +1123,6 @@ public class EmployeeOp {
             }
 
         }
-
         return query;
     }
 
@@ -1215,8 +1141,6 @@ public class EmployeeOp {
                 obj.setNationalId(rs.getString("national_id"));
                 obj.setPhone(rs.getString("guest_phone"));
                 obj.setEmail(rs.getString("guest_email"));
-
-
                 guestList.add(obj);
             }
         } catch (SQLException e) {

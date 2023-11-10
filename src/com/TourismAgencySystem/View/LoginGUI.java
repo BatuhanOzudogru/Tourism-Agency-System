@@ -30,6 +30,8 @@ public class LoginGUI extends JFrame {
         setTitle(Config.PROJECT_TITLE);
         setResizable(false);
         setVisible(true);
+        //Değerlendirme Formu 8
+        // Login işleminde kullanıcının kaydı olup olmadığı kontrol ediliyor mu, kaydı yoksa ya da hatalı giriş yapıldıysa kullanıcıya hatalı giriş mesajı veriliyor mu?
         buttonLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,7 +40,9 @@ public class LoginGUI extends JFrame {
                 } else {
                     User u = UserOp.getFetch(fieldUsername.getText(), fieldPassword.getText());
                     if (u == null) {
-                        Helper.showMessage("User not found !");
+                        //Değerlendirme Formu 20
+                        //Kullanıcıya hatalı işlemler için uygun hata mesajları veriliyor mu?
+                        Helper.showMessage("Please check your username and password !");
                     } else {
                         switch (u.getType()) {
                             case "admin":
@@ -54,6 +58,8 @@ public class LoginGUI extends JFrame {
                 }
             }
         });
+        //Değerlendirme Formu 8
+        // Login işleminde kullanıcının kaydı olup olmadığı kontrol ediliyor mu, kaydı yoksa ya da hatalı giriş yapıldıysa kullanıcıya hatalı giriş mesajı veriliyor mu?
         fieldUsername.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -64,7 +70,7 @@ public class LoginGUI extends JFrame {
                     } else {
                         User u = UserOp.getFetch(fieldUsername.getText(), fieldPassword.getText());
                         if (u == null) {
-                            Helper.showMessage("User not found !");
+                            Helper.showMessage("Please check your username and password !");
                         } else {
                             switch (u.getType()) {
                                 case "admin":
@@ -81,6 +87,8 @@ public class LoginGUI extends JFrame {
                 }
             }
         });
+        //Değerlendirme Formu 8
+        // Login işleminde kullanıcının kaydı olup olmadığı kontrol ediliyor mu, kaydı yoksa ya da hatalı giriş yapıldıysa kullanıcıya hatalı giriş mesajı veriliyor mu?
         fieldPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -93,7 +101,7 @@ public class LoginGUI extends JFrame {
                     } else {
                         User u = UserOp.getFetch(fieldUsername.getText(), fieldPassword.getText());
                         if (u == null) {
-                            Helper.showMessage("User not found !");
+                            Helper.showMessage("Please check your username and password !");
                         } else {
                             switch (u.getType()) {
                                 case "admin":
